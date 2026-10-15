@@ -1,0 +1,6 @@
+@AllianceInventoryApi_HostAddress = http://localhost:5249
+
+GET {{AllianceInventoryApi_HostAddress}}
+Accept: application/json
+
+###
