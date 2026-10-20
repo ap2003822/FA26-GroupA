@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
+             x:Class="AllianceBarcodeScan.MainPage">
+
+    <Grid RowDefinitions="128, *, Auto">
+        <zxing:CameraBarcodeReaderView
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            x:Name="barcodeView"
+            BarcodesDetected="BarcodeDetected"/>
+
+        <!-- Border just being used for the current standin barcode show feature Likely switch out for a "loading..." message while it gets info from the api -->
+        <Border 
+	Grid.Row="0"
+	Margin="24,12"
+	Padding="14,10"
+	BackgroundColor="#CC000000"
+	Stroke="#55FFFFFF"
+	StrokeThickness="1"
+	HorizontalOptions="Fill"
+	VerticalOptions="Center">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="16" />
+            </Border.StrokeShape>
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ResultPanel_Tapped" />
+            </Border.GestureRecognizers>
+            <VerticalStackLayout Spacing="2">
+                <Label
+			x:Name="ResultFormatLabel"
+			Text="Ready to scan"
+			FontSize="12"
+			FontAttributes="Bold"
+			TextColor="#BDBDBD" />
+                <Label
+			x:Name="ResultValueLabel"
+			Text="Point camera at a barcode"
+			FontSize="16"
+			FontAttributes="Bold"
+			MaxLines="2"
+			LineBreakMode="TailTruncation"
+			TextColor="White" />
+                <Label
+			x:Name="ResultHintLabel"
+			Text="Tap to view full value"
+			FontSize="11"
+			IsVisible="False"
+			TextColor="#BDBDBD" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+
+</ContentPage>
