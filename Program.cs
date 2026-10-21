@@ -1,7 +1,9 @@
-using Microsoft.OpenApi;
-using Microsoft.EntityFrameworkCore;
+using AllianceInventoryApi.IRepository;
+using AllianceInventoryApi.Repository;
 using AllianceInventoryAPI.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.OpenApi;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +22,7 @@ builder.Services.ConfigureSwaggerGen(setup =>
         Version = "v1"
     });
 });
-
+builder.Services.AddScoped<IItem, ItemDAL>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -31,6 +33,18 @@ if (app.Environment.IsDevelopment())
 
     
 }
+app.MapGet("/debug/database", async (
+    InventoryDbContext context) =>
+{
+    bool canConnect = await context.Database.CanConnectAsync();
+
+    return Results.Ok(new
+    {
+        Connected = canConnect,
+        Database = context.Database.GetDbConnection().DataSource
+    });
+});
+
 
 app.UseHttpsRedirection();
 

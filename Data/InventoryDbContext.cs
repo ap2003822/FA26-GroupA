@@ -6,11 +6,17 @@ namespace AllianceInventoryAPI.Data
 {
     public partial class InventoryDbContext : DbContext
     {
-        public InventoryDbContext(DbContextOptions<InventoryDbContext> options) : base(options) 
+        private readonly IConfiguration _config;
+
+        public InventoryDbContext(IConfiguration config)
         {
-       
+            config = _config;
+        }
+        public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration config) : base(options) 
+        {
+            _config = config;
         }
 
-        public DbSet<ItemModel> Items { get; set; } = null!;
+        public DbSet<Item> Item { get; set; } = null!;
     }
 }
