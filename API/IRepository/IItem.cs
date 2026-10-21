@@ -1,6 +1,6 @@
-﻿using AllianceInventoryApi.Models;
+﻿using AllianceInventoryApi.API.Models;
 
-namespace AllianceInventoryApi.IRepository
+namespace AllianceInventoryApi.API.IRepository
 {
     public interface IItem
     {

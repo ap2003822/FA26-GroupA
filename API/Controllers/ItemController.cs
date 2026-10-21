@@ -1,12 +1,12 @@
-﻿using AllianceInventoryApi.Models;
-using AllianceInventoryApi.IRepository;
-using AllianceInventoryApi.Repository;
+﻿using AllianceInventoryApi.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using AllianceInventoryAPI.Data;
+using AllianceInventoryApi.API.Data;
+using AllianceInventoryApi.API.IRepository;
+using AllianceInventoryApi.API.Models;
 
 
-namespace AllianceInventoryApi.Controllers
+namespace AllianceInventoryApi.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

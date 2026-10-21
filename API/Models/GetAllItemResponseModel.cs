@@ -1,4 +1,4 @@
-﻿namespace AllianceInventoryApi.Models
+﻿namespace AllianceInventoryApi.API.Models
 {
     public class GetAllItemResponseModel
     {

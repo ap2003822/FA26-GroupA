@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using AllianceInventoryApi.Models;
 using Microsoft.Extensions.Configuration;
+using AllianceInventoryApi.API.Models;
 
-namespace AllianceInventoryAPI.Data
+namespace AllianceInventoryApi.API.Data
 {
     public partial class InventoryDbContext : DbContext
     {

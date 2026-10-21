@@ -1,5 +1,3 @@
 <Solution>
-  <Folder Name="/API/">
-    <Project Path="AllianceInventoryApi.csproj" />
-  </Folder>
+  <Project Path="AllianceInventoryApi.csproj" />
 </Solution>

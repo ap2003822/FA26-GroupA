@@ -1,9 +1,9 @@
-﻿using AllianceInventoryApi.IRepository;
-using AllianceInventoryApi.Models;
-using AllianceInventoryAPI.Data;
+﻿using AllianceInventoryApi.API.Data;
+using AllianceInventoryApi.API.IRepository;
+using AllianceInventoryApi.API.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace AllianceInventoryApi.Repository
+namespace AllianceInventoryApi.API.Repository
 {
     public class ItemDAL : IItem
     {
@@ -49,5 +49,6 @@ namespace AllianceInventoryApi.Repository
             }
         }
         #endregion
+
     }
 }

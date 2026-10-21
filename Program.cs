@@ -1,6 +1,6 @@
-using AllianceInventoryApi.IRepository;
-using AllianceInventoryApi.Repository;
-using AllianceInventoryAPI.Data;
+using AllianceInventoryApi.API.Data;
+using AllianceInventoryApi.API.IRepository;
+using AllianceInventoryApi.API.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.OpenApi;
