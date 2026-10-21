@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
@@ -26,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,7 +38,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "MainPage.xaml.cs",
               "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MainPage.xaml.cs",
@@ -50,7 +50,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainPage.xaml",
               "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MainPage.xaml",
@@ -63,7 +63,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MauiProgram.cs",
               "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MauiProgram.cs",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MauiProgram.cs",
@@ -71,7 +71,8 @@
               "RelativeToolTip": "AllianceBarcodeScan\\MauiProgram.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-15T04:38:24.568Z"
+              "WhenOpened": "2026-10-15T04:38:24.568Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

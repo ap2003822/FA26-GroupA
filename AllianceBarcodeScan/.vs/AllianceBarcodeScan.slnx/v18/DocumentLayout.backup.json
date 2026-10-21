@@ -1,21 +1,21 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\",
+  "WorkspaceRootPath": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mainpage.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mainpage.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\alliancebarcodescan\\alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\mauiprogram.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\alliancebarcodescan\\alliancebarcodescan\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|c:\\users\\showg\\source\\repos\\fa26-groupa\\alliancebarcodescan\\alliancebarcodescan\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{ABE2ED3B-0E34-543E-BA99-3ADEF4003D0D}|AllianceBarcodeScan\\AllianceBarcodeScan.csproj|solutionrelative:alliancebarcodescan\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
@@ -40,24 +40,23 @@
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "MainPage.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml.cs",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MainPage.xaml.cs",
-              "ToolTip": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml.cs*",
-              "RelativeToolTip": "AllianceBarcodeScan\\MainPage.xaml.cs*",
+              "ToolTip": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml.cs",
+              "RelativeToolTip": "AllianceBarcodeScan\\MainPage.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAADLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-15T04:42:28.535Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-15T04:42:28.535Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "MainPage.xaml",
-              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml",
+              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MainPage.xaml",
-              "ToolTip": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml*",
-              "RelativeToolTip": "AllianceBarcodeScan\\MainPage.xaml*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAwAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MainPage.xaml",
+              "RelativeToolTip": "AllianceBarcodeScan\\MainPage.xaml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-10-15T04:42:04.485Z",
               "EditorCaption": ""
@@ -66,22 +65,21 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "MauiProgram.cs",
-              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MauiProgram.cs",
+              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MauiProgram.cs",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\MauiProgram.cs",
-              "ToolTip": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\MauiProgram.cs",
+              "ToolTip": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\MauiProgram.cs",
               "RelativeToolTip": "AllianceBarcodeScan\\MauiProgram.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-15T04:38:24.568Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-15T04:38:24.568Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\App.xaml",
+              "DocumentMoniker": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\App.xaml",
               "RelativeDocumentMoniker": "AllianceBarcodeScan\\App.xaml",
-              "ToolTip": "C:\\Users\\showg\\source\\repos\\AllianceBarcodeScan\\AllianceBarcodeScan\\App.xaml",
+              "ToolTip": "C:\\Users\\showg\\source\\repos\\FA26-GroupA\\AllianceBarcodeScan\\AllianceBarcodeScan\\App.xaml",
               "RelativeToolTip": "AllianceBarcodeScan\\App.xaml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",

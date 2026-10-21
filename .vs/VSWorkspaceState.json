@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\AllianceBarcodeScan",
-    "\\bin\\Debug"
+    "\\API"
   ],
+  "SelectedNode": "\\API\\AllianceInventoryApi.slnx",
   "PreviewInSolutionExplorer": false
 }
