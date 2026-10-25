@@ -50,5 +50,29 @@ namespace AllianceInventoryApi.API.Repository
         }
         #endregion
 
+        #region Restock Email
+        public List<Item> RestockCheck()
+        {
+            List<Item>? itemList = GetAllItems();
+            List<Item>? RestockList = new List<Item>();
+            try
+            {
+                foreach (Item item in itemList)
+                {
+                    if (item.Item_Unit_Amount <= item.Item_Low_ALert_Number)
+                    {
+                        RestockList.Add(item);
+                    }
+                }
+                return RestockList;
+            }
+            catch (Exception ex)
+            { //Should Only fail if GetAll Items does first, but good to call it out anyway.
+                Console.Write("RestockCheck --- " + ex.Message);
+                RestockList = null;
+                throw;
+            }
+        }
+        #endregion
     }
 }

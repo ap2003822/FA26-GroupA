@@ -9,5 +9,6 @@ namespace AllianceInventoryApi.API.IRepository
         /// </summary>
         /// <returns></returns>
         List<Item> GetAllItems();
+        List<Item> RestockCheck();
     }
 }
