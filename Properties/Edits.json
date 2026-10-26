@@ -1,0 +1,24 @@
+[
+  {
+    "itemName": "Gauze",
+    "itemUnitAmount": 1299.99,
+    "itemImage": "gauze.jpg",
+    "itemDesc": "Medical Gauze",
+    "itemPurchaseDate": "2026-01-15",
+    "itemServiceDate": "2027-01-15",
+    "itemSerialNumber": "ABC123",
+    "itemNotes": "Assigned to MS"
+  }
+
+
+ ,{
+  "itemName": "Syringe",
+  "itemUnitAmount": 1299.99,
+  "itemImage": "syringe.jpg",
+  "itemDesc": "Medical Syringe",
+  "itemPurchaseDate": "2026-01-15",
+  "itemServiceDate": "2027-01-15",
+  "itemSerialNumber": "ABC123",
+  "itemNotes": "Assigned to MS"
+   }
+]
