@@ -20,16 +20,27 @@
         <tbody>
             @if (Model != null)
             {
-                @if (Model.ItemList != null) 
+                @if (Model.ItemList != null)
                 {
-                    @foreach (var item in Model.ItemList)
+                    @if (Model.ItemList.Count == 0)
+                    {
+
+                    
+                        @foreach (var item in Model.ItemList)
+                        {
+                            <tr>
+                                <td>@item.Item_Serial_Number</td>
+                                <td>@item.Item_Name</td>
+                                <td>@item.Item_Desc</td>
+                                <td>@item.Item_Notes</td>
+                                <td>@item.Item_Unit_Amount</td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@item.Item_Serial_Number</td>
-                            <td>@item.Item_Name</td>
-                            <td>@item.Item_Desc</td>
-                            <td>@item.Item_Notes</td>
-                            <td>@item.Item_Unit_Amount</td>
+                            <td colspan="5">Empty</td>
                         </tr>
                     }
                 }
