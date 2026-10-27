@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Admin\" />
-    <Folder Include="Pages\User\" />
+    <Folder Include="Views\Admin\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
 
   <ItemGroup>
