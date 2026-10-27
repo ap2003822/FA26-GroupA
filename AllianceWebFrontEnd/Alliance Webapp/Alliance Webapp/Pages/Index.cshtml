@@ -1,0 +1,50 @@
+﻿@page
+@using Alliance_Webapp.Models;
+@model GetAllItemsResponseModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h2>Items</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead>
+            <tr>
+                <th>Serial #</th>
+                <th>Name</th>
+                <th>Desc</th>
+                <th>Notes</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @if (Model.ItemList != null) 
+                {
+                    @foreach (var item in Model.ItemList)
+                    {
+                        <tr>
+                            <td>@item.Item_Serial_Number</td>
+                            <td>@item.Item_Name</td>
+                            <td>@item.Item_Desc</td>
+                            <td>@item.Item_Notes</td>
+                            <td>@item.Item_Unit_Amount</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">Uh oh! Something went wrong!</td>
+                    </tr>
+                }
+            }
+            else {
+                <tr>
+                    <td colspan="5">Uh oh! Something went wrong!</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
