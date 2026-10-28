@@ -26,7 +26,6 @@ builder.Services.AddScoped<IItem, ItemDAL>();
 var app = builder.Build();
 
 
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
