@@ -32,6 +32,24 @@ namespace Alliance_Webapp.Controllers
             return View(ResponseModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ItemDetail([FromQuery(Name = "SId")]int Serial)
+        { //Temp response Model, replacing with GetItem, used for this and barcode scan.
+            Item ResponseModel = null;
+            try
+            {
+                var strSerializedData = string.Empty;
+                ServiceHelper objService = new ServiceHelper();
+                string response = await objService.GetRequest(strSerializedData, ConstantValues.GetAllItems, false, string.Empty).ConfigureAwait(true);
+                ResponseModel = JsonConvert.DeserializeObject<Item>(response);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("GetItem API" + ex.Message);
+            }
+            return View();
+        }
+
         public async Task<IActionResult> GetItems()
         {
             List<GetAllItemsResponseModel> itemList = new List<GetAllItemsResponseModel>();

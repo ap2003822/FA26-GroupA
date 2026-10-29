@@ -7,7 +7,7 @@
 
 <div class="text-center">
     <h2>Items</h2>
-    <table class="table table-sm table-striped table-bordered m-2">
+    <table class="table table-sm table-striped table-bordered m-2 table-hover">
         <thead>
             <tr>
                 <th>Serial #</th>
@@ -28,12 +28,13 @@
                     
                         @foreach (var item in Model.ItemList)
                         {
-                            <tr>
+                            <tr class="position-relative">
                                 <td>@item.Item_Serial_Number</td>
                                 <td>@item.Item_Name</td>
                                 <td>@item.Item_Desc</td>
-                                <td>@item.Item_Notes</td>
+                                <td>Item_Notes</td>
                                 <td>@item.Item_Unit_Amount</td>
+                                <td><a class="stretched-link" asp-controller="Item" asp-action="ItemDetail" asp-route-SId="@item.Item_Serial_Number"></a></td>
                             </tr>
                         }
                     }

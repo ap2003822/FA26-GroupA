@@ -1,0 +1,35 @@
+﻿@using Alliance_Webapp.Models;
+@model Item;
+@{
+        ViewData["Title"] = $"{Model.Item_Name} Details";
+}
+<div class="container text-start">
+    <div class="col">
+        <div class="row">
+            <img src="@Model.Item_Image" />
+        </div>
+        <div class="row">
+            Desc: @Model.Item_Desc
+        </div>
+        <div class="row">
+            Notes: @Model.Item_Notes
+        </div>
+    </div>
+    <div class="col">
+        <div class="row">
+           Serial Num: @Model.Item_Serial_Number
+        </div>
+        <div class="row">
+            Amount: @Model.Item_Unit_Amount
+        </div>
+        <div class="row">
+            Restock Amount: @Model.Item_Low_ALert_Number
+        </div>
+        <div class="row">
+            Purchase Date: @Model.Item_Purchase_Date
+        </div>
+        <div class="row">
+            Service Date: @Model.Item_Service_Date
+        </div>
+    </div>
+</div>
