@@ -1,35 +1,35 @@
 ﻿@using Alliance_Webapp.Models;
-@model Item;
+@model GetItemResponseModel;
 @{
-        ViewData["Title"] = $"{Model.Item_Name} Details";
+        ViewData["Title"] = "Item Details";
 }
 <div class="container text-start">
     <div class="col">
         <div class="row">
-            <img src="@Model.Item_Image" />
+            <img src="@Model.Item.Item_Image" />
         </div>
         <div class="row">
-            Desc: @Model.Item_Desc
+            Desc: @Model.Item.Item_Desc
         </div>
         <div class="row">
-            Notes: @Model.Item_Notes
+            Notes: @Model.Item.Item_Notes
         </div>
     </div>
     <div class="col">
         <div class="row">
-           Serial Num: @Model.Item_Serial_Number
+           Serial Num: @Model.Item.Item_Serial_Number
         </div>
         <div class="row">
-            Amount: @Model.Item_Unit_Amount
+            Amount: @Model.Item.Item_Unit_Amount
         </div>
         <div class="row">
-            Restock Amount: @Model.Item_Low_ALert_Number
+            Restock Amount: @Model.Item.Item_Low_ALert_Number
         </div>
         <div class="row">
-            Purchase Date: @Model.Item_Purchase_Date
+            Purchase Date: @Model.Item.Item_Purchase_Date
         </div>
         <div class="row">
-            Service Date: @Model.Item_Service_Date
+            Service Date: @Model.Item.Item_Service_Date
         </div>
     </div>
 </div>

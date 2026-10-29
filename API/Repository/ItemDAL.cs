@@ -2,6 +2,8 @@
 using AllianceInventoryApi.API.IRepository;
 using AllianceInventoryApi.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
+using System.Data;
 
 namespace AllianceInventoryApi.API.Repository
 {
@@ -9,9 +11,12 @@ namespace AllianceInventoryApi.API.Repository
     {
         private readonly InventoryDbContext _context;
 
-        public ItemDAL(InventoryDbContext context)
+        private readonly IConfiguration _config;
+
+        public ItemDAL(InventoryDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
         #region GetAllItem
         public List<Item> GetAllItems()
@@ -49,7 +54,48 @@ namespace AllianceInventoryApi.API.Repository
             }
         }
         #endregion
+        #region Get Item
+        public async Task<Item> GetItemBySId(int SId)
+        {
+            Item? RequestedItem = null;
 
+            try
+            {
+                if (SId > 0)
+                {
+                    RequestedItem = await Task.Run(() =>
+                    {
+                        var query = _context.Item.SingleOrDefault(x => x.Item_Serial_Number == SId);
+
+                        if (query != null)
+                        {
+                            return new Item
+                            {
+                                Item_ID = query.Item_ID,
+                                Item_Serial_Number = query.Item_Serial_Number,
+                                Item_Name = query.Item_Name,
+                                Item_Desc = query.Item_Desc,
+                                Item_Notes = query.Item_Notes,
+                                Item_Image = query.Item_Image,
+                                Item_Unit_Amount = query.Item_Unit_Amount,
+                                Item_Low_ALert_Number = query.Item_Low_ALert_Number,
+                                Item_Purchase_Date = query.Item_Purchase_Date,
+                                Item_Service_Date = query.Item_Purchase_Date
+                            };
+                        }
+                        return new Item();
+                    });
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RequestedItem ?? new Item();
+        }
+        #endregion
         #region Restock Email
         public List<Item> RestockCheck()
         {

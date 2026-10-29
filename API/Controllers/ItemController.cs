@@ -131,5 +131,49 @@ namespace AllianceInventoryApi.API.Controllers
             return response;
         }
         #endregion
+
+        #region Get Item
+
+        [HttpGet("GetItem", Name = "GetItem")]
+        [AllowAnonymous]
+        public async Task<GetItemResponseModel> GetItemBySId(int SId)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                if (SId > 0)
+                {
+                    Item RequestedItem = await repository.GetItemBySId(SId).ConfigureAwait(true);
+
+                    if (RequestedItem != null)
+                    {
+                        response.Status = true;
+                        response.StatusCode = 200;
+                        response.Item = RequestedItem;
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.Message = "Get Failed";
+                        response.StatusCode = 0;
+                    }
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Serial # Invalid";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Get Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
     }
 }
