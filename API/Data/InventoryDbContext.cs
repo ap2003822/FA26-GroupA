@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using AllianceInventoryApi.API.Models;
+using AllianceInventoryApi.Models;
 
 namespace AllianceInventoryApi.API.Data
 {
@@ -10,13 +11,22 @@ namespace AllianceInventoryApi.API.Data
 
         public InventoryDbContext(IConfiguration config)
         {
-            config = _config;
+            _config = config;
         }
         public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration config) : base(options) 
         {
             _config = config;
         }
 
-        public DbSet<Item> Item { get; set; } = null!;
+        public virtual DbSet<Item> Item { get; set; } = null!;
+        public virtual DbSet<UserModel> User { get; set; } = null!;
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var cs = _config["ConnectionStrings:DefaultConnection"];
+                optionsBuilder.UseSqlite(cs);
+            }
+        }
     }
 }
