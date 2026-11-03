@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace AllianceInventoryApi.API.Models
+
 public class ItemDto
 {
     public string ItemName { get; set; }
