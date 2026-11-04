@@ -1,4 +1,5 @@
 using AllianceInventoryApi.API.Models;
+using AllianceInventoryApi.API.IRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
