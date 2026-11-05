@@ -6,8 +6,10 @@ namespace AllianceInventoryApi.API.IRepository
     {
         List<Edit> GetAllEdits();
 
-        Task<Edit> GetEditBySerialNumber(string serialNumber);
-
         Task<bool> CreateEdit(Edit edit);
+
+        Task<bool> UpdateEdit(Edit edit);
+
+        Task<bool> DeleteEdit(Edit edit);
     }
 }

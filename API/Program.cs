@@ -20,6 +20,7 @@ namespace AllianceInventoryApi
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddScoped<IEdit, EditDAL>();
             builder.Services.ConfigureSwaggerGen(setup =>
             {
                 setup.SwaggerDoc("v1", new OpenApiInfo
