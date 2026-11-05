@@ -20,6 +20,7 @@ namespace AllianceInventoryApi.API.Data
 
         public virtual DbSet<Item> Item { get; set; } = null!;
         public virtual DbSet<UserModel> User { get; set; } = null!;
+        public DbSet<Edit> Edit { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
