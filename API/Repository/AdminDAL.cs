@@ -1,9 +1,10 @@
 ﻿using AllianceInventoryApi.API.Data;
 using AllianceInventoryApi.API.IRepository;
+using AllianceInventoryApi.API.Models;
 using AllianceInventoryApi.IRepository;
 using AllianceInventoryApi.Models;
-using AllianceInventoryApi.API.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace AllianceInventoryApi.Repository
 {
@@ -61,6 +62,44 @@ namespace AllianceInventoryApi.Repository
             catch (Exception ex)
             {
                 Console.WriteLine("AddItemCategory --- " + ex.Message);
+                response.Status = false;
+                response.StatusCode = 0;
+                response.Message = ex.Message;
+            }
+            return response;
+        }
+        #endregion
+        #region Remove Item Cat
+        public async Task<GetItemResponseModel> RemoveItemCategory(int SerialNum)
+        {
+            Item RemovedItemCat;
+            
+            GetItemResponseModel response = new GetItemResponseModel();
+
+            try
+            {
+                var query = _context.Item.SingleOrDefault(x => x.Item_Serial_Number == SerialNum);
+                if (query != null) {
+                    using (var db = new InventoryDbContext(_config))
+                    {
+                        db.Item.Remove(query);
+                        await db.SaveChangesAsync();
+                    }
+                    response.Status = true;
+                    response.StatusCode=200;
+                    response.Message = "Item Removed";
+                    response.Item = query;
+                }
+                else
+                {
+                    response.Status = false;
+                    response.StatusCode = 0;
+                    response.Message = "Item with Serial num " + SerialNum + " Not Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("RemoveItemCategory --- " + ex.Message);
                 response.Status = false;
                 response.StatusCode = 0;
                 response.Message = ex.Message;

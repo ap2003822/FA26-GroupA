@@ -73,5 +73,59 @@ namespace AllianceInventoryApi.Controllers
             }
             return response;
         }
+        [HttpPost("RemoveItemCategory", Name = "RemoveItemCategory")]
+        [AllowAnonymous]
+        public async Task<GetItemResponseModel> RemoveItemCategory(int SerialNum)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+
+            if (SerialNum > 0)
+            {
+                try
+                {
+                    var ItemCat = await repository.RemoveItemCategory(SerialNum).ConfigureAwait(true);
+
+                    if (ItemCat.Status == true && ItemCat.StatusCode == 200 && ItemCat.Item != null)
+                    {
+                        response.Status = true;
+                        response.StatusCode = 200;
+                        response.Message = "Item Removed";
+                        response.Item = new API.Models.Item
+                        {
+                            Item_ID = ItemCat.Item.Item_ID,
+                            Item_Name = ItemCat.Item.Item_Name,
+                            Item_Serial_Number = ItemCat.Item.Item_Serial_Number,
+                            Item_Desc = ItemCat.Item.Item_Desc,
+                            Item_Image = ItemCat.Item.Item_Image,
+                            Item_Notes = ItemCat.Item.Item_Notes,
+                            Item_Unit_Amount = ItemCat.Item.Item_Unit_Amount,
+                            Item_Low_ALert_Number = ItemCat.Item.Item_Low_ALert_Number,
+                            Item_Purchase_Date = ItemCat.Item.Item_Purchase_Date,
+                            Item_Service_Date = ItemCat.Item.Item_Service_Date
+                        };
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = 0;
+                        response.Message = "RemoveFalse";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("RemoveItemCategory --- " + ex.Message);
+                    response.Status = false;
+                    response.StatusCode = 0;
+                    response.Message = ex.Message;
+                }
+            }
+            else
+            {
+                response.Status = false;
+                response.StatusCode = 0;
+                response.Message = "No Serial ID Entered";
+            }
+            return response;
+        }
     }
 }
