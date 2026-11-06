@@ -1,8 +1,13 @@
+using System.Text;
 using AllianceInventoryApi.API.Data;
 using AllianceInventoryApi.API.IRepository;
 using AllianceInventoryApi.API.Repository;
+using InventoryApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 
 namespace AllianceInventoryApi
@@ -17,6 +22,41 @@ namespace AllianceInventoryApi
             // Add services to the container.
             builder.Services.AddDbContext<InventoryDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
+
+            // Add Identity services and configure password requirements
+            builder.Services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                // Configure password requirements
+                // Can change later
+                options.Password.RequiredLength = 8;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+            })
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<InventoryDbContext>()
+            .AddSignInManager();
+            // Add JWT authentication and configure token validation parameters
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.MapInboundClaims = false;   // keep short claim names: email, role
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                    ValidAudience = builder.Configuration["Jwt:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+                    NameClaimType = "email",
+                    RoleClaimType = "role"
+                };
+            });
+
+            builder.Services.AddAuthorization();
+
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -54,6 +94,8 @@ namespace AllianceInventoryApi
 
 
             app.UseHttpsRedirection();
+
+            app.UseAuthentication(); // Add this line to enable authentication
 
             app.UseAuthorization();
 
