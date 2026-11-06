@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace InventoryApi.Models;
+namespace AllianceInventoryApi.Models;
 
-public class ApplicationUser : IdentityUser
+public class AuthorizedUserModel : IdentityUser
 {
     public string? Name { get; set; }
 }

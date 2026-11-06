@@ -2,7 +2,7 @@ using System.Text;
 using AllianceInventoryApi.API.Data;
 using AllianceInventoryApi.API.IRepository;
 using AllianceInventoryApi.API.Repository;
-using InventoryApi.Models;
+using AllianceInventoryApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,27 +14,17 @@ namespace AllianceInventoryApi
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
             var configuration = builder.Configuration;
             // Add services to the container.
             builder.Services.AddDbContext<InventoryDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+            //builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
 
-            // Add Identity services and configure password requirements
-            builder.Services.AddIdentityCore<ApplicationUser>(options =>
-            {
-                // Configure password requirements
-                // Can change later
-                options.Password.RequiredLength = 8;
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-            })
-            .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<InventoryDbContext>()
-            .AddSignInManager();
+           
             // Add JWT authentication and configure token validation parameters
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
@@ -102,6 +92,8 @@ namespace AllianceInventoryApi
             app.MapControllers();
 
             app.Run();
+
+
         }
     }
 }
