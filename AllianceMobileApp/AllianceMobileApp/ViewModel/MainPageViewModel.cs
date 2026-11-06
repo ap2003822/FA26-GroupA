@@ -1,5 +1,4 @@
 ﻿using AllianceMobileApp.Model;
-using AllianceMobileApp.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
