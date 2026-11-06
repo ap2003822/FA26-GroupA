@@ -127,5 +127,53 @@ namespace AllianceInventoryApi.Controllers
             }
             return response;
         }
+        [HttpPost("DeleteUser", Name = "DeleteUser")]
+        [AllowAnonymous]
+        public async Task<DeleteUserResponseModel> DeleteUser(string email)
+        {
+            DeleteUserResponseModel response = new DeleteUserResponseModel();
+            if(email != null)
+            {
+                try
+                {
+                    var User = await repository.DeleteUser(email).ConfigureAwait(true);
+
+                    if (User.Status = true && User.StatusCode == 200 && User.User != null)
+                    {
+                        response.Status = true;
+                        response.StatusCode = 200;
+                        response.Message = "User Deleted";
+                        response.User = new UserModel
+                        {
+                            User_id = User.User.User_id,
+                            User_Email = User.User.User_Email,
+                            User_Password = User.User.User_Password,
+                            User_Role = User.User.User_Role
+                        };
+
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = 0;
+                        response.Message = "Delete Failed";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("DeleteUser --- " + ex.Message);
+                    response.Status = false;
+                    response.StatusCode = 0;
+                    response.Message = ex.Message;
+                }
+            }
+            else
+            {
+                response.Status = false;
+                response.StatusCode = 0;
+                response.Message = "Email Empty";
+            }
+            return response;
+        }
     }
 }

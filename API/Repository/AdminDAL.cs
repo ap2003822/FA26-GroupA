@@ -107,5 +107,53 @@ namespace AllianceInventoryApi.Repository
             return response;
         }
         #endregion
+        #region Delete User
+        public async Task<DeleteUserResponseModel> DeleteUser(string Email)
+        {
+            DeleteUserResponseModel response = new DeleteUserResponseModel();
+            if (Email != null)
+            {
+
+                try
+                {
+                    var query = _context.User.SingleOrDefault(x => x.User_Email == Email);
+                    if (query != null)
+                    {
+                        using (var db = new InventoryDbContext(_config))
+                        {
+                            db.User.Remove(query);
+                            await db.SaveChangesAsync();
+                        }
+                        response.Status = true;
+                        response.StatusCode = 200;
+                        response.Message = "User Removed";
+                        response.User = query;
+                    }
+                    else
+                    {
+                        response.Status = false;
+                        response.StatusCode = 0;
+                        response.Message = "No User with Email " + Email;
+                        response.User = query;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("DeleteUser --- " + ex);
+                    response.Status = false;
+                    response.StatusCode = 0;
+                    response.Message = ex.Message;
+
+                }
+            }
+            else
+            {
+                response.Status = false;
+                response.StatusCode = 0;
+                response.Message = "Email Empty";
+            }
+            return response;
+        }
+        #endregion
     }
 }
