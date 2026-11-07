@@ -4,29 +4,23 @@ namespace AllianceInventoryApi.API.Models
 {
     public class Edit
     {
-        [Key]
-        public int Id { get; set; }
+            public int Item_ID { get; set; }
 
-        [Required]
-        [MaxLength(255)]
-        public string ItemName { get; set; }
+            public string Item_Name { get; set; }
 
-        [Required]
-        public decimal ItemUnitAmount { get; set; }
+            public string Item_Desc { get; set; }
 
-        public string? ItemImage { get; set; }
+            public string Item_Image { get; set; }
 
-        [MaxLength(2000)]
-        public string? ItemDesc { get; set; }
+            public int Item_Unit_Amount { get; set; }
 
-        public DateTime? ItemPurchaseDate { get; set; }
+            public int Item_Serial_Number { get; set; }
 
-        public DateTime? ItemServiceDate { get; set; }
+            public DateTime? Item_Purchase_Date { get; set; }
 
-        [MaxLength(100)]
-        public string? ItemSerialNumber { get; set; }
+            public DateTime? Item_Service_Date { get; set; }
 
-        [MaxLength(2000)]
-        public string? ItemNotes { get; set; }
+            public string Item_Notes { get; set; }
+        
     }
 }

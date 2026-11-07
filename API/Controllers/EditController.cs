@@ -60,8 +60,7 @@ namespace AllianceInventoryApi.API.Controllers
         #region Get Edit
 
         [HttpGet("GetEdit")]
-        [AllowAnonymous]
-        public async Task<GetEditResponseModel> GetEdit(string serialNumber)
+        public async Task<GetEditResponseModel> GetEdit(int itemId)
         {
             GetEditResponseModel response =
                 new GetEditResponseModel();
@@ -69,7 +68,7 @@ namespace AllianceInventoryApi.API.Controllers
             try
             {
                 Edit edit =
-                    await repository.GetEditBySerialNumber(serialNumber);
+                    await repository.GetEdit(itemId);
 
                 if (edit != null)
                 {

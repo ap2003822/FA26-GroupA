@@ -2,67 +2,103 @@ using AllianceInventoryApi.API.Data;
 using AllianceInventoryApi.API.IRepository;
 using AllianceInventoryApi.API.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
+using System.Data;
 
-namespace AllianceInventoryApi.API.DAL
+namespace AllianceInventoryApi.API.Repository
 {
     public class EditDAL : IEdit
     {
         private readonly InventoryDbContext _context;
+        private readonly IConfiguration _config;
 
-        public EditDAL(InventoryDbContext context)
+        public EditDAL(InventoryDbContext context, IConfiguration config)
         {
             _context = context;
+            _config = config;
         }
 
         #region Get All Edits
 
         public List<Edit> GetAllEdits()
         {
+            var editList = new List<Edit>();
+
             try
             {
-                return _context.Edit
-                    .OrderBy(x => x.ItemName)
-                    .ToList();
+                var edits = _context.Edit.ToList();
+
+                foreach (Edit edit in edits)
+                {
+                    editList.Add(new Edit()
+                    {
+                        Item_ID = edit.Item_ID,
+                        Item_Desc = edit.Item_Desc,
+                        Item_Name = edit.Item_Name,
+                        Item_Image = edit.Item_Image,
+                        Item_Notes = edit.Item_Notes,
+                        Item_Unit_Amount = edit.Item_Unit_Amount,
+                        Item_Serial_Number = edit.Item_Serial_Number,
+                        Item_Purchase_Date = edit.Item_Purchase_Date,
+                        Item_Service_Date = edit.Item_Service_Date,
+                        Item_Low_ALert_Number = edit.Item_Low_ALert_Number
+                    });
+                }
+
+                return editList;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(
-                    "GetAllEdits --- " + ex.Message);
-
-                return new List<Edit>();
+                Console.WriteLine("GetAllEdits --- " + ex.Message);
+                throw;
             }
         }
 
         #endregion
 
-        #region Get Edit By Serial Number
+        #region Get Edit
 
-        public async Task<Edit> GetEditBySerialNumber(
-            string serialNumber)
+        public async Task<Edit> GetEditBySId(int SId)
         {
-            Edit edit = new Edit();
+            Edit? requestedEdit = null;
 
             try
             {
-                var query =
-                    await _context.Edit
-                        .FirstOrDefaultAsync(
-                            x => x.ItemSerialNumber ==
-                                 serialNumber);
-
-                if (query != null)
+                if (SId > 0)
                 {
-                    edit = query;
+                    requestedEdit = await Task.Run(() =>
+                    {
+                        var query = _context.Edit
+                            .SingleOrDefault(x =>
+                                x.Item_Serial_Number == SId);
+
+                        if (query != null)
+                        {
+                            return new Edit
+                            {
+                                Item_ID = query.Item_ID,
+                                Item_Serial_Number = query.Item_Serial_Number,
+                                Item_Name = query.Item_Name,
+                                Item_Desc = query.Item_Desc,
+                                Item_Notes = query.Item_Notes,
+                                Item_Image = query.Item_Image,
+                                Item_Unit_Amount = query.Item_Unit_Amount,
+                                Item_Low_ALert_Number = query.Item_Low_ALert_Number,
+                                Item_Purchase_Date = query.Item_Purchase_Date,
+                                Item_Service_Date = query.Item_Service_Date
+                            };
+                        }
+
+                        return new Edit();
+                    });
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(
-                    "GetEditBySerialNumber --- "
-                    + ex.Message);
+                Console.WriteLine(ex.Message);
             }
 
-            return edit;
+            return requestedEdit ?? new Edit();
         }
 
         #endregion
@@ -83,8 +119,7 @@ namespace AllianceInventoryApi.API.DAL
             catch (Exception ex)
             {
                 Console.WriteLine(
-                    "CreateEdit --- "
-                    + ex.Message);
+                    "CreateEdit --- " + ex.Message);
 
                 return false;
             }
@@ -98,37 +133,25 @@ namespace AllianceInventoryApi.API.DAL
         {
             try
             {
-                var existing =
+                var existingEdit =
                     await _context.Edit
                         .FirstOrDefaultAsync(
-                            x => x.ItemSerialNumber ==
-                                 edit.ItemSerialNumber);
+                            x => x.Item_ID == edit.Item_ID);
 
-                if (existing == null)
+                if (existingEdit == null)
                 {
                     return false;
                 }
 
-                existing.ItemName =
-                    edit.ItemName;
-
-                existing.ItemUnitAmount =
-                    edit.ItemUnitAmount;
-
-                existing.ItemImage =
-                    edit.ItemImage;
-
-                existing.ItemDesc =
-                    edit.ItemDesc;
-
-                existing.ItemPurchaseDate =
-                    edit.ItemPurchaseDate;
-
-                existing.ItemServiceDate =
-                    edit.ItemServiceDate;
-
-                existing.ItemNotes =
-                    edit.ItemNotes;
+                existingEdit.Item_Name = edit.Item_Name;
+                existingEdit.Item_Desc = edit.Item_Desc;
+                existingEdit.Item_Image = edit.Item_Image;
+                existingEdit.Item_Unit_Amount = edit.Item_Unit_Amount;
+                existingEdit.Item_Serial_Number = edit.Item_Serial_Number;
+                existingEdit.Item_Purchase_Date = edit.Item_Purchase_Date;
+                existingEdit.Item_Service_Date = edit.Item_Service_Date;
+                existingEdit.Item_Notes = edit.Item_Notes;
+                existingEdit.Item_Low_ALert_Number = edit.Item_Low_ALert_Number;
 
                 await _context.SaveChangesAsync();
 
@@ -137,8 +160,7 @@ namespace AllianceInventoryApi.API.DAL
             catch (Exception ex)
             {
                 Console.WriteLine(
-                    "UpdateEdit --- "
-                    + ex.Message);
+                    "UpdateEdit --- " + ex.Message);
 
                 return false;
             }
@@ -148,16 +170,14 @@ namespace AllianceInventoryApi.API.DAL
 
         #region Delete Edit
 
-        public async Task<bool> DeleteEdit(
-            string serialNumber)
+        public async Task<bool> DeleteEdit(int itemId)
         {
             try
             {
                 var edit =
                     await _context.Edit
                         .FirstOrDefaultAsync(
-                            x => x.ItemSerialNumber ==
-                                 serialNumber);
+                            x => x.Item_ID == itemId);
 
                 if (edit == null)
                 {
@@ -173,8 +193,7 @@ namespace AllianceInventoryApi.API.DAL
             catch (Exception ex)
             {
                 Console.WriteLine(
-                    "DeleteEdit --- "
-                    + ex.Message);
+                    "DeleteEdit --- " + ex.Message);
 
                 return false;
             }

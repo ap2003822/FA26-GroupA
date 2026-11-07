@@ -6,6 +6,8 @@ namespace AllianceInventoryApi.API.IRepository
     {
         List<Edit> GetAllEdits();
 
+        Task<Edit> GetEditBySId(int itemId);
+
         Task<bool> CreateEdit(Edit edit);
 
         Task<bool> UpdateEdit(Edit edit);
