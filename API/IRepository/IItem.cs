@@ -12,4 +12,5 @@ namespace AllianceInventoryApi.API.IRepository
         List<Item> RestockCheck();
         Task<Item> GetItemBySId(int SId);
     }
+
 }
