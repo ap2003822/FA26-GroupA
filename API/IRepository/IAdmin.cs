@@ -6,6 +6,6 @@ namespace AllianceInventoryApi.IRepository
     {
         public Task<GetItemResponseModel> AddItemCategory(AddCatModel UserInput);
         public Task<GetItemResponseModel> RemoveItemCategory(int SerialNum);
-        public Task<DeleteUserResponseModel> DeleteUser(string Email);
+        public Task<DeleteUserResponseModel> DeleteUser(int Id);
     }
 }

@@ -129,14 +129,14 @@ namespace AllianceInventoryApi.Controllers
         }
         [HttpPost("DeleteUser", Name = "DeleteUser")]
         [AllowAnonymous]
-        public async Task<DeleteUserResponseModel> DeleteUser(string email)
+        public async Task<DeleteUserResponseModel> DeleteUser(int Id)
         {
             DeleteUserResponseModel response = new DeleteUserResponseModel();
-            if(email != null)
+            if(Id > 0)
             {
                 try
                 {
-                    var User = await repository.DeleteUser(email).ConfigureAwait(true);
+                    var User = await repository.DeleteUser(Id).ConfigureAwait(true);
 
                     if (User.Status = true && User.StatusCode == 200 && User.User != null)
                     {
@@ -171,7 +171,7 @@ namespace AllianceInventoryApi.Controllers
             {
                 response.Status = false;
                 response.StatusCode = 0;
-                response.Message = "Email Empty";
+                response.Message = "ID Empty";
             }
             return response;
         }

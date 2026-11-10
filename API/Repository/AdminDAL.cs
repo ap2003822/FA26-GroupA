@@ -108,15 +108,15 @@ namespace AllianceInventoryApi.Repository
         }
         #endregion
         #region Delete User
-        public async Task<DeleteUserResponseModel> DeleteUser(string Email)
+        public async Task<DeleteUserResponseModel> DeleteUser(int Id)
         {
             DeleteUserResponseModel response = new DeleteUserResponseModel();
-            if (Email != null)
+            if (Id > 0)
             {
 
                 try
                 {
-                    var query = _context.User.SingleOrDefault(x => x.User_Email == Email);
+                    var query = _context.User.SingleOrDefault(x => x.User_id == Id);
                     if (query != null)
                     {
                         using (var db = new InventoryDbContext(_config))
@@ -133,7 +133,7 @@ namespace AllianceInventoryApi.Repository
                     {
                         response.Status = false;
                         response.StatusCode = 0;
-                        response.Message = "No User with Email " + Email;
+                        response.Message = "No User with Id " + Id;
                         response.User = query;
                     }
                 }
@@ -150,7 +150,7 @@ namespace AllianceInventoryApi.Repository
             {
                 response.Status = false;
                 response.StatusCode = 0;
-                response.Message = "Email Empty";
+                response.Message = "Id Empty";
             }
             return response;
         }
