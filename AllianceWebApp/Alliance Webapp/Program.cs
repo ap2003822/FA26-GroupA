@@ -1,58 +1,35 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Net;
-using System.Text;
+using Alliance_Webapp.Auth;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/");
+});
 
-// Configure JWT auth
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
+builder.Services.AddControllersWithViews(options =>
+    options.Filters.Add(new AuthorizeFilter()));
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-
-        // grab the key and throw if not found
-        var key = builder.Configuration["Jwt:Key"]
-                  ?? throw new InvalidOperationException("Missing configuration: Jwt:Key");
-
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(key)   // warning gone, since `key` is non-null
-            )
-        };
-
-        // events...
-        options.Events = new JwtBearerEvents
-        {
-            OnAuthenticationFailed = async context =>
-            {
-                Console.WriteLine("OnAuthFailed");
-                await Task.CompletedTask;
-            },
-            OnChallenge = async context =>
-            {
-                Console.WriteLine("OnChallenge");
-                context.HandleResponse();
-                if (context.AuthenticateFailure != null)
-                {
-                    context.Response.StatusCode = 401;
-                    await context.Response.WriteAsync(
-                        "Token Validation Has Failed. Request Access Denied");
-                }
-            }
-        };
+        options.LoginPath = "/User/Login";
+        options.Cookie.HttpOnly = true;
+        options.SlidingExpiration = false;   // cookie ends when the token ends
     });
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddTransient<TokenHandler>();
+builder.Services.AddHttpClient("Api", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["Api:BaseUrl"]!);
+})
+.AddHttpMessageHandler<TokenHandler>();
 
 var app = builder.Build();
 
@@ -68,6 +45,7 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

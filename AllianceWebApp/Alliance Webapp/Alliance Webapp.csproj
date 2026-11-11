@@ -8,8 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Admin\" />
-    <Folder Include="Views\User\" />
+    <Compile Remove="Views\Admin\**" />
+    <Content Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <None Remove="Views\Admin\**" />
   </ItemGroup>
 
   <ItemGroup>
