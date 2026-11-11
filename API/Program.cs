@@ -67,8 +67,17 @@ namespace AllianceInventoryApi
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+                using var scope = app.Services.CreateScope();
+                var db = scope.ServiceProvider.GetRequiredService<InventoryDbContext>();
 
-    
+                foreach (var u in db.User.ToList())
+                {
+                    if (!string.IsNullOrEmpty(u.User_Password) && !u.User_Password.StartsWith("AQAAAA"))
+                        u.User_Password = PasswordHelper.Hash(u, u.User_Password);
+                }
+                db.SaveChanges();
+
+
             }
             app.MapGet("/debug/database", async (
                 InventoryDbContext context) =>

@@ -34,8 +34,8 @@ public class UserController : Controller
         HttpResponseMessage response;
         try
         {
-            response = await client.PostAsJsonAsync("api/auth/login",
-                new { Email = model.Email, Password = model.Password });
+            response = await client.PostAsJsonAsync("User/LoginUser",
+    new { User_id = 0, User_Email = model.Email, User_Password = model.Password, User_Role = "" });
         }
         catch (HttpRequestException)
         {

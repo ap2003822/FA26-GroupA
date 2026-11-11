@@ -24,22 +24,22 @@ namespace AllianceInventoryApi.Repository
             LoginResponseModel response = new LoginResponseModel();
             try
             {
-                if(tokenData != null)
+                if (tokenData != null && !string.IsNullOrEmpty(tokenData.User_Password))
                 {
-                    var query = _context.User
-                        .Where(x => x.User_Email == tokenData.User_Email && x.User_Password == tokenData.User_Password)
-                        .FirstOrDefault<UserModel>();
-                    if(query != null)
+                    var dbUser = await _context.User
+                        .FirstOrDefaultAsync(x => x.User_Email == tokenData.User_Email);
+
+                    if (dbUser != null && PasswordHelper.Verify(dbUser, tokenData.User_Password))
                     {
                         response.Status = true;
                         response.StatusCode = 200;
                         response.Message = "Login Success";
-                        response.User = query;
+                        response.User = dbUser;
                         return response;
                     }
                     else
                     {
-                        response.Status= false;
+                        response.Status = false;
                         response.StatusCode = 500;
                         response.Message = "Login Failed";
                     }
@@ -54,6 +54,7 @@ namespace AllianceInventoryApi.Repository
             return response;
         }
         #endregion
+
         #region FindUserByEmail
         public async Task<UserModel> FindUserByEmail(string email)
         {
