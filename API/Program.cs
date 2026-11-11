@@ -102,7 +102,8 @@ namespace AllianceInventoryApi
 
             app.Run();
 
-
+            //Email Goes Here Either timed or On Startup
+            
         }
     }
 }

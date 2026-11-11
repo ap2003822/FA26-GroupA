@@ -1,4 +1,8 @@
-public class ItemDto
+using System.ComponentModel.DataAnnotations;
+
+namespace AllianceInventoryApi.API.Models
+
+public class Edit
 {
     public string ItemName { get; set; }
     public decimal ItemUnitAmount { get; set; }
