@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages(options =>
-{
-    options.Conventions.AuthorizeFolder("/");
-});
+builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter()));

@@ -1,13 +1,15 @@
-﻿using System.Net;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using Alliance_Webapp.Models;
 using Alliance_Webapp.Models;
+using Alliance_Webapp.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Alliance_Webapp.Controllers;
 
@@ -101,4 +103,9 @@ public class UserController : Controller
         await HttpContext.SignOutAsync();   // deletes the cookie
         return RedirectToAction("Login");
     }
+    public IActionResult Admin()
+    {
+        return View();   // looks for Views/User/Admin.cshtml
+    }
+   
 }
