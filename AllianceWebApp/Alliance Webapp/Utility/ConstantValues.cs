@@ -3,6 +3,6 @@
     public class ConstantValues
     {
         public const string GetAllItems = "Item/GetAllItems";
-        public const string GetItemBySId = "Item/GetItem";
+        public const string GetItemById = "Item/GetItem";
     }
 }

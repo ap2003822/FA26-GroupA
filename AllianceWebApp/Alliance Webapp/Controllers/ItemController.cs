@@ -33,14 +33,14 @@ namespace Alliance_Webapp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ItemDetail([FromQuery(Name = "SId")]int Serial)
+        public async Task<IActionResult> ItemDetail(int id)
         {
             GetItemResponseModel ResponseModel = null;
             try
             {
                 var strSerializedData = string.Empty;
                 ServiceHelper objService = new ServiceHelper();
-                string response = await objService.GetRequest(strSerializedData, ConstantValues.GetItemBySId + "?SId=" + Serial, false, string.Empty).ConfigureAwait(true);
+                string response = await objService.GetRequest(strSerializedData, ConstantValues.GetItemById + "?Id=" + id, false, string.Empty).ConfigureAwait(true);
                 ResponseModel = JsonConvert.DeserializeObject<GetItemResponseModel>(response);
             }
             catch (Exception ex)

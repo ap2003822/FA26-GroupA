@@ -55,17 +55,17 @@ namespace AllianceInventoryApi.API.Repository
         }
         #endregion
         #region Get Item
-        public async Task<Item> GetItemBySId(int SId)
+        public async Task<Item> GetItemById(int Id)
         {
             Item? RequestedItem = null;
 
             try
             {
-                if (SId > 0)
+                if (Id > 0)
                 {
                     RequestedItem = await Task.Run(() =>
                     {
-                        var query = _context.Item.SingleOrDefault(x => x.Item_Serial_Number == SId);
+                        var query = _context.Item.SingleOrDefault(x => x.Item_ID== Id);
 
                         if (query != null)
                         {

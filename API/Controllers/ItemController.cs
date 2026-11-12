@@ -136,14 +136,14 @@ namespace AllianceInventoryApi.API.Controllers
 
         [HttpGet("GetItem", Name = "GetItem")]
         [AllowAnonymous]
-        public async Task<GetItemResponseModel> GetItemBySId(int SId)
+        public async Task<GetItemResponseModel> GetItemById(int Id)
         {
             GetItemResponseModel response = new GetItemResponseModel();
             try
             {
-                if (SId > 0)
+                if (Id > 0)
                 {
-                    Item RequestedItem = await repository.GetItemBySId(SId).ConfigureAwait(true);
+                    Item RequestedItem = await repository.GetItemById(Id).ConfigureAwait(true);
 
                     if (RequestedItem != null)
                     {
