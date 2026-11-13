@@ -99,7 +99,7 @@ namespace AllianceInventoryApi.API.Repository
         #endregion
 
         #region Create item
-        public async Task<GetItemResponseModel> CreateItem(Item item)
+        public async Task<GetItemResponseModel> AddItem(Item item)
         {
             GetItemResponseModel response = new GetItemResponseModel();
             try

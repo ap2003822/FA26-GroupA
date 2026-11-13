@@ -10,16 +10,16 @@ namespace Alliance_Webapp.Controllers
     public class ItemController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
-
+        private record ApiItemResponse(bool Status, int StatusCode, string? Message);
         public IConfiguration _configuration;
         public ItemController(IHttpClientFactory httpClientFactory)
         {
             _httpClientFactory = httpClientFactory;
         }
-        public ItemController(IConfiguration config)
-        {
-            _configuration = config;
-        }
+        //public ItemController(IConfiguration config)
+        //{
+        //    _configuration = config;
+        //}
         public async Task<IActionResult> Index()
         {
             GetAllItemsResponseModel ResponseModel = null;
@@ -74,48 +74,46 @@ namespace Alliance_Webapp.Controllers
             return View(ResponseModel);
 
         }
-        public IActionResult AddItem()
-        {
-            return View();
-        }
+        public IActionResult AddItem() => View();
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddItem(Item item)
+        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item)
         {
+            ModelState.Remove(nameof(Item.Item_ID));
+            if (!ModelState.IsValid) return View(item);
+
             var client = _httpClientFactory.CreateClient("Api");
 
-            GetItemResponseModel? result;
+            HttpResponseMessage message;
             try
             {
-                // Send the item to the API
-                var httpResponse = await client.PostAsJsonAsync("api/items", item);
-
-                // Read the API's response model (works for success AND error responses)
-                result = await httpResponse.Content.ReadFromJsonAsync<GetItemResponseModel>();
+                message = await client.PostAsJsonAsync("Item/AddItem", item);   // must match the API's route
             }
-            catch
+            catch (HttpRequestException)
             {
-                ViewBag.Error = "Could not reach the server. Please try again.";
+                ViewBag.ErrorMessage = "Could not reach the server. Please try again.";
                 return View(item);
             }
 
-            if (result != null && result.Status)
+            if (!message.IsSuccessStatusCode)
             {
-                TempData["Success"] = result.Message;
-                return RedirectToAction("AddItem");
+                Console.WriteLine("AddItem API error: " + (int)message.StatusCode + " "
+                    + await message.Content.ReadAsStringAsync());
+                ViewBag.ErrorMessage = "Could not create the item. Please try again.";
+                return View(item);
             }
 
-            // Failed: show the message and keep what the user typed
-            ViewBag.Error = result?.Message ?? "Something went wrong.";
-            return View(item);
-        }
-        public IActionResult CreateItem(Item item)
-        {
-            if (ModelState.IsValid)
+            var result = await message.Content.ReadFromJsonAsync<ApiItemResponse>();
+
+            if (result == null || !result.Status || result.StatusCode != 200)
             {
-                
+                ViewBag.ErrorMessage = result?.Message ?? "Could not create the item.";
+                return View(item);
             }
-            return View("AddItem", item);
+
+            TempData["Message"] = $"Added {item.Item_Name}.";
+            return RedirectToAction(nameof(Index));
         }
     }
 }

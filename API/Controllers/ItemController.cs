@@ -177,15 +177,15 @@ namespace AllianceInventoryApi.API.Controllers
         #endregion
 
         #region Create Item
-        [HttpPost("CreateItem", Name = "CreateItem")]
-        public async Task<GetItemResponseModel> CreateItem(Item item)
+        [HttpPost("AddItem", Name = "AddItem")]
+        public async Task<GetItemResponseModel> AddItem(Item item)
         {
             GetItemResponseModel response = new GetItemResponseModel();
             try
             {
                 if (item != null)
                 {
-                    response = await repository.CreateItem(item).ConfigureAwait(true);
+                    response = await repository.AddItem(item).ConfigureAwait(true);
                 }
                 else
                 {
