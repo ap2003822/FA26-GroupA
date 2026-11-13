@@ -12,6 +12,6 @@ namespace AllianceInventoryApi.API.IRepository
         List<Item> GetAllItems();
         List<Item> RestockCheck();
         Task<Item> GetItemById(int Id);
-        Task<GetItemResponseModel> CreateItem(Item item);
+        Task<GetItemResponseModel>CreateItem(Item item);
     }
 }

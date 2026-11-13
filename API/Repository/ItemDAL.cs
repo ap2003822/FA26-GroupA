@@ -66,7 +66,7 @@ namespace AllianceInventoryApi.API.Repository
                 {
                     RequestedItem = await Task.Run(() =>
                     {
-                        var query = _context.Item.SingleOrDefault(x => x.Item_ID== Id);
+                        var query = _context.Item.SingleOrDefault(x => x.Item_ID == Id);
 
                         if (query != null)
                         {
@@ -86,7 +86,7 @@ namespace AllianceInventoryApi.API.Repository
                         }
                         return new Item();
                     });
-                    
+
                 }
             }
             catch (Exception ex)
@@ -105,7 +105,7 @@ namespace AllianceInventoryApi.API.Repository
             try
             {
                 // Very basic check. Most of the verification should be done on the front end, but we should still check for nulls here.
-                if (item == null)         
+                if (item == null)
                 {
                     response.Status = false;
                     response.StatusCode = 400;
@@ -115,7 +115,7 @@ namespace AllianceInventoryApi.API.Repository
 
                 // Basic duplicate check.
                 var name = item.Item_Name.Trim();
-                var exists = await _context.Item                                   
+                var exists = await _context.Item
                     .AnyAsync(i => i.Item_Name.ToLower() == name.ToLower());
                 if (exists)
                 {
@@ -129,18 +129,22 @@ namespace AllianceInventoryApi.API.Repository
                 Item newItem = new Item
                 {
                     Item_Name = item.Item_Name,
-                    Item_Unit_Amount = item.Item_Unit_Amount
-                    // copy every other form field here
+                    Item_Unit_Amount = item.Item_Unit_Amount,
+                    Item_Image = item.Item_Image,
+                    Item_Desc = item.Item_Desc,
+                    Item_Purchase_Date = item.Item_Purchase_Date,
+                    Item_Low_ALert_Number = item.Item_Low_ALert_Number,
+                    Item_Service_Date = item.Item_Service_Date,
+                    Item_Serial_Number = item.Item_Serial_Number,
+                    Item_Notes = item.Item_Notes
                 };
 
-                // only now do we save
                 _context.Item.Add(newItem);
                 await _context.SaveChangesAsync();
 
                 response.Status = true;
                 response.StatusCode = 200;
                 response.Message = "Item created.";
-                response.Item = newItem;                                           // CHECK: property name on the response model
                 return response;
             }
             catch (Exception ex)
@@ -150,19 +154,15 @@ namespace AllianceInventoryApi.API.Repository
                 response.StatusCode = 500;
                 response.Message = "Could not create the item.";
                 response.Item = null;
+                return response;
             }
-            return response;
-        }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return response;
         }
 
+
+
         #endregion
-        #region Restock Email
-        public List<Item> RestockCheck()
+            #region Restock Email
+public List<Item> RestockCheck()
         {
             List<Item>? itemList = GetAllItems();
             List<Item>? RestockList = new List<Item>();
@@ -186,4 +186,5 @@ namespace AllianceInventoryApi.API.Repository
         }
         #endregion
     }
+
 }

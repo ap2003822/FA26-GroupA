@@ -175,5 +175,34 @@ namespace AllianceInventoryApi.API.Controllers
             return response;
         }
         #endregion
+
+        #region Create Item
+        [HttpPost("CreateItem", Name = "CreateItem")]
+        public async Task<GetItemResponseModel> CreateItem(Item item)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                if (item != null)
+                {
+                    response = await repository.CreateItem(item).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Create Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Create Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
     }
 }
