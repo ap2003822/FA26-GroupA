@@ -1,4 +1,5 @@
 ﻿using AllianceInventoryApi.API.Models;
+using AllianceInventoryApi.Models;
 
 namespace AllianceInventoryApi.API.IRepository
 {
@@ -11,5 +12,6 @@ namespace AllianceInventoryApi.API.IRepository
         List<Item> GetAllItems();
         List<Item> RestockCheck();
         Task<Item> GetItemById(int Id);
+        Task<GetItemResponseModel> CreateItem(Item item);
     }
 }

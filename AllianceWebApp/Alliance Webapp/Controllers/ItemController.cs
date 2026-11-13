@@ -9,8 +9,13 @@ namespace Alliance_Webapp.Controllers
 {
     public class ItemController : Controller
     {
+        private readonly IHttpClientFactory _httpClientFactory;
+
         public IConfiguration _configuration;
-        
+        public ItemController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
         public ItemController(IConfiguration config)
         {
             _configuration = config;
@@ -68,6 +73,49 @@ namespace Alliance_Webapp.Controllers
             }
             return View(ResponseModel);
 
+        }
+        public IActionResult AddItem()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem(Item item)
+        {
+            var client = _httpClientFactory.CreateClient("Api");
+
+            GetItemResponseModel? result;
+            try
+            {
+                // Send the item to the API
+                var httpResponse = await client.PostAsJsonAsync("api/items", item);
+
+                // Read the API's response model (works for success AND error responses)
+                result = await httpResponse.Content.ReadFromJsonAsync<GetItemResponseModel>();
+            }
+            catch
+            {
+                ViewBag.Error = "Could not reach the server. Please try again.";
+                return View(item);
+            }
+
+            if (result != null && result.Status)
+            {
+                TempData["Success"] = result.Message;
+                return RedirectToAction("AddItem");
+            }
+
+            // Failed: show the message and keep what the user typed
+            ViewBag.Error = result?.Message ?? "Something went wrong.";
+            return View(item);
+        }
+        public IActionResult CreateItem(Item item)
+        {
+            if (ModelState.IsValid)
+            {
+                
+            }
+            return View("AddItem", item);
         }
     }
 }

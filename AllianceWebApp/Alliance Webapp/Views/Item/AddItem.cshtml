@@ -1,0 +1,77 @@
+﻿@model Alliance_Webapp.Models.Item
+@{
+    ViewData["Title"] = "Add New Item";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <form asp-action="CreateItem" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="Item_Name" class="form-label"></label>
+            <input asp-for="Item_Name" class="form-control" />
+            <span asp-validation-for="Item_Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Item_Desc" class="form-label"></label>
+            <textarea asp-for="Item_Desc" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Item_Desc" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Item_Notes" class="form-label"></label>
+            <input asp-for="Item_Notes" class="form-control" />
+            <span asp-validation-for="Item_Notes" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Unit_Amount" class="form-label"></label>
+            <input asp-for="Item_Unit_Amount" class="form-control" />
+            <span asp-validation-for="Item_Unit_Amount" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Low_ALert_Number" class="form-label"></label>
+            <input asp-for="Item_Low_ALert_Number" class="form-control" />
+            <span asp-validation-for="Item_Low_ALert_Number" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Purchase_Date" class="form-label"></label>
+            <input asp-for="Item_Purchase_Date" class="form-control" />
+            <span asp-validation-for="Item_Purchase_Date" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Service_Date" class="form-label"></label>
+            <input asp-for="Item_Service_Date" class="form-control" />
+            <span asp-validation-for="Item_Service_Date" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Serial_Number" class="form-label"></label>
+            <input asp-for="Item_Serial_Number" class="form-control" />
+            <span asp-validation-for="Item_Serial_Number" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item_Image" class="form-label"></label>
+            <input type="file" name="Item_Image" class="form-control" accept="image/*" />
+            <span asp-validation-for="Item_Image" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
