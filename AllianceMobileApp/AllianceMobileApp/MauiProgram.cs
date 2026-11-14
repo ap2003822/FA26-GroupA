@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AllianceMobileApp.ViewModel;
+using Microsoft.Extensions.Logging;
 using ZXing.Net.Maui.Controls;
 
 namespace AllianceMobileApp
@@ -20,6 +21,8 @@ namespace AllianceMobileApp
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddTransient<MainPage>();
+            builder.Services.AddTransient<MainPageViewModel>();
 
             return builder.Build();
         }

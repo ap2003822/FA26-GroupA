@@ -4,7 +4,7 @@
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              x:Class="AllianceMobileApp.Views.BarcodeScanIn">
     
-    
+    <!--
     <Grid RowDefinitions="128,*,Auto">
         <zxing:CameraBarcodeReaderView
           Grid.Row="0"
@@ -50,4 +50,5 @@
             </VerticalStackLayout>
         </Border>
     </Grid>
+    -->
 </ContentView>
