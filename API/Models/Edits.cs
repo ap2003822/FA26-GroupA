@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AllianceInventoryApi.API.Models
+namespace AllianceInventoryApi.API.Models;
 
 public class Edit
 {

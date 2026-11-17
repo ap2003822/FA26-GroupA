@@ -4,9 +4,31 @@
              xmlns:zxing="clr-namespace:ZXing.Net.Maui.Controls;assembly=ZXing.Net.MAUI.Controls"
              x:Class="AllianceMobileApp.MainPage">
 
-    <Grid RowDefinitions="128,*,Auto">
-        <CollectionView>
-            
+
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Serial #"/>
+            <Label Text="Name"/>
+            <Label Text="Amount"/>
+        </HorizontalStackLayout>
+        <CollectionView ItemsSource="{Binding items}">
+            <CollectionView.EmptyView>
+            <Label Text="No Items found." HorizontalOptions="Center" VerticalOptions="Center"/>
+        </CollectionView.EmptyView>
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid ColumnDefinitions="*,Auto" Padding="12,8">
+                    <HorizontalStackLayout>
+                            <Label Text="{Binding Item_Serial_Number}"/>
+                        <!--Serial-->
+                            <Label Text="{Binding Item_Name}"/>
+                        <!--Name-->
+                            <Label Text="{Binding Item_Unit_Amount}"/>
+                        <!--Amount-->
+                    </HorizontalStackLayout>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
         </CollectionView>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>
