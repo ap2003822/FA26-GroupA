@@ -22,12 +22,13 @@ namespace AllianceMobileApp.ViewModel
         public MainPageViewModel (IInventoryService inventoryAPI)
         {
             _inventoryAPI = inventoryAPI;
-            GetProductsAsync(cancellationToken: default);
+            GetItemsAsync(cancellationToken: default);
 
         }
 
+    
         [RelayCommand]
-        private async Task GetProductsAsync(CancellationToken cancellationToken)
+        private async Task GetItemsAsync(CancellationToken cancellationToken = default)
         {
             try
             {

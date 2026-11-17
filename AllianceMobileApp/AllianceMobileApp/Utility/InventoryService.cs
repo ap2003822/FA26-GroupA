@@ -17,7 +17,7 @@ namespace AllianceMobileApp.Utility
 
         public async Task<List<Item>> GetItemsAsync(CancellationToken ct = default)
         {
-            var stream = await _client.GetStreamAsync("Item/GetAllItems", ct);
+            var stream = await _client.GetStreamAsync("/Item/GetAllItems", ct);
             return (await JsonSerializer.DeserializeAsync<List<Item>>(stream, cancellationToken: ct))!;
         }
     }
