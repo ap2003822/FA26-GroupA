@@ -78,11 +78,28 @@ namespace Alliance_Webapp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item)
+        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item,IFormFile? imageFile)
         {
-            ModelState.Remove(nameof(Item.Item_ID));
             if (!ModelState.IsValid) return View(item);
 
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                if (!imageFile.ContentType.StartsWith("image/"))
+                {
+                    ViewBag.ErrorMessage = "Please choose an image file.";
+                    return View(item);
+                }
+                if (imageFile.Length > 5 * 1024 * 1024)   // 5 MB
+                {
+                    ViewBag.ErrorMessage = "The image must be under 5 MB.";
+                    return View(item);
+                }
+
+                using var ms = new MemoryStream();
+                await imageFile.CopyToAsync(ms);
+                item.Item_Image = Convert.ToBase64String(ms.ToArray());
+
+            }
             var client = _httpClientFactory.CreateClient("Api");
 
             HttpResponseMessage message;
