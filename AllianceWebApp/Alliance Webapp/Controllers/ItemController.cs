@@ -16,10 +16,6 @@ namespace Alliance_Webapp.Controllers
         {
             _httpClientFactory = httpClientFactory;
         }
-        //public ItemController(IConfiguration config)
-        //{
-        //    _configuration = config;
-        //}
         public async Task<IActionResult> Index()
         {
             GetAllItemsResponseModel ResponseModel = null;
@@ -78,7 +74,7 @@ namespace Alliance_Webapp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item,IFormFile? imageFile)
+        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item, IFormFile? imageFile)
         {
             if (!ModelState.IsValid) return View(item);
 
@@ -97,7 +93,7 @@ namespace Alliance_Webapp.Controllers
 
                 using var ms = new MemoryStream();
                 await imageFile.CopyToAsync(ms);
-                item.Item_Image = Convert.ToBase64String(ms.ToArray());
+                item.Item_Image = ms.ToArray();
 
             }
             var client = _httpClientFactory.CreateClient("Api");
@@ -132,5 +128,6 @@ namespace Alliance_Webapp.Controllers
             TempData["Message"] = $"Added {item.Item_Name}.";
             return RedirectToAction(nameof(Index));
         }
+
     }
 }
