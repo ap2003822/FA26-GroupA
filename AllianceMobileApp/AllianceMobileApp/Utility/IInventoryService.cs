@@ -9,6 +9,6 @@ namespace AllianceMobileApp.Utility
     public interface IInventoryService
     {
         [Get("/Item/GetAllItems")]
-        Task<List<Item>> GetItemsAsync(CancellationToken cancellationToken = default);
+        Task<GetAllItemsResponseModel> GetItemsAsync(CancellationToken cancellationToken = default);
     }
 }

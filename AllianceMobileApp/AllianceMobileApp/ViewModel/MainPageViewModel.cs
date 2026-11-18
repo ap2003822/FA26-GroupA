@@ -17,12 +17,12 @@ namespace AllianceMobileApp.ViewModel
         private readonly IInventoryService _inventoryAPI;
 
         [ObservableProperty]
-        private List<Item> items = new List<Item>();
+        private GetAllItemsResponseModel items = new GetAllItemsResponseModel();
         
         public MainPageViewModel (IInventoryService inventoryAPI)
         {
             _inventoryAPI = inventoryAPI;
-            GetItemsAsync(cancellationToken: default);
+            //GetItemsAsync(cancellationToken: default);
 
         }
 
