@@ -21,24 +21,14 @@ namespace AllianceMobileApp
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            //builder.Services.AddHttpClient("AllianceInventory", client =>
-            //{
-            //    client.BaseAddress = new Uri("https://localhost:7170/");
-            //    client.DefaultRequestHeaders.Add("Accept", "application/json");
-            //    client.Timeout = TimeSpan.FromSeconds(30);
-            //});
-
             //builder.Services.AddRefitGeneratedClient<IInventoryService>()
             //    .ConfigureHttpClient(client =>
             //    {
             //        client.BaseAddress = new Uri("https://localhost:7170/");
+            //        client.DefaultRequestHeaders.Add("Accept", "application/json");
             //    });
-            builder.Services.AddRefitGeneratedClient<IInventoryService>()
-                .ConfigureHttpClient(client =>
-                {
-                    client.BaseAddress = new Uri("https://localhost:7170/");
-                    client.DefaultRequestHeaders.Add("Accept", "application/json");
-                });
+
+            //Leaving This here for Posterity, if we ever have issues with too many calls flooding the sockets implementing this *may(??)* Help
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif

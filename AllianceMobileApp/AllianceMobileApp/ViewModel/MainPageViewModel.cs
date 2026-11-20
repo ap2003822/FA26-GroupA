@@ -14,14 +14,12 @@ namespace AllianceMobileApp.ViewModel
     public partial class MainPageViewModel : ObservableObject
     {
 
-        private readonly IInventoryService _inventoryAPI;
+        private readonly IInventoryService _inventoryAPI = RestService.ForGenerated<IInventoryService>("https://localhost:7170/", GetAllItemsResponseCONTEXT.Default);
 
-        [ObservableProperty]
         private GetAllItemsResponseModel items = new GetAllItemsResponseModel();
         
-        public MainPageViewModel (IInventoryService inventoryAPI)
+        public MainPageViewModel ()
         {
-            _inventoryAPI = inventoryAPI;
             //GetItemsAsync(cancellationToken: default);
 
         }
@@ -30,15 +28,17 @@ namespace AllianceMobileApp.ViewModel
         [RelayCommand]
         private async Task GetItemsAsync(CancellationToken cancellationToken = default)
         {
-            try
-            {
-                items = await _inventoryAPI.GetItemsAsync(cancellationToken);
-            }
-            catch (ApiException ex)
-            {
-                await Shell.Current.DisplayAlertAsync("Error", $"Failed to get Items List: {ex.StatusCode}", "OK");
-                Console.WriteLine(ex.Message);
-            }
+            //try
+            //{
+
+            //    items = await _inventoryAPI.GetItemsAsync(cancellationToken);
+            //}
+            //catch (ApiException ex)
+            //{
+            //    await Shell.Current.DisplayAlertAsync("Error", $"Failed to get Items List: {ex.StatusCode}", "OK");
+            //    Console.WriteLine(ex.Message);
+            //}
+            var response = await _inventoryAPI.GetItemsAsync();
         }
 
     }
