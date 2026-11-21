@@ -92,5 +92,38 @@ namespace AllianceInventoryApi.Repository
             return user ?? new UserModel();
         }
         #endregion
+        #region Add User
+        public async Task<AddUserResponseModel> AddUser(UserModel user)
+        {
+            AddUserResponseModel response = new AddUserResponseModel();
+            try
+            {
+                if (user != null)
+                {
+                    user.User_Password = PasswordHelper.Hash(user, user.User_Password);
+                    _context.User.Add(user);
+                    await _context.SaveChangesAsync();
+                    response.Status = true;
+                    response.StatusCode = 200;
+                    response.Message = "User Added Successfully";
+                    response.User = user;
+                }
+                else
+                {
+                    response.Status = false;
+                    response.StatusCode = 400;
+                    response.Message = "Invalid User Data";
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("AddUser --- " + ex.Message);
+                response.Status = false;
+                response.StatusCode = 500;
+                response.Message = "Error Adding User";
+            }
+            return response;
+        }
+        #endregion
     }
 }

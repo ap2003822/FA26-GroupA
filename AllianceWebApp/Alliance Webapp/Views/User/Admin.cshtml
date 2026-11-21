@@ -1,0 +1,18 @@
+﻿@model Alliance_Webapp.Models.UserModel
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <div class="d-flex flex-wrap gap-2">
+        <a asp-controller="User" asp-action="AddUser">Add User</a>
+        <a asp-controller="Item"  asp-action="AddItem">Add Item</a>
+        <a type="button" class="btn btn-primary" action="">View Transactions</a>
+        <a type="button" class="btn btn-primary" action="">Edit User</a>
+        <a type="button" class="btn btn-primary" action="">Edit Items</a>
+        <a type="button" class="btn btn-primary" action="">Change Notification Email</a>
+    </div>
+
+</div>

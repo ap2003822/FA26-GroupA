@@ -24,7 +24,14 @@ namespace AllianceInventoryApi
             //builder.Services.AddDbContext<AuthDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddControllers();
 
-           
+            // Allow larger content streams for media
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                // Set to null for unlimited, or a specific byte limit
+                serverOptions.Limits.MaxRequestBodySize = 5 * 1024 * 1024; // 5 MB
+            });
+
+
             // Add JWT authentication and configure token validation parameters
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>

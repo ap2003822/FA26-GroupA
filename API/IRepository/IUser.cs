@@ -8,5 +8,6 @@ namespace AllianceInventoryApi.IRepository
     {
         Task<LoginResponseModel> LoginUser(UserModel tokenData);
         Task<UserModel> FindUserByEmail(string email);
+        Task<AddUserResponseModel> AddUser(UserModel user);
     }
 }
