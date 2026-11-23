@@ -4,6 +4,7 @@ using AllianceInventoryApi.API.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.Sqlite;
 using System.Data;
+using AllianceInventoryApi.Models;
 
 namespace AllianceInventoryApi.API.Repository
 {
@@ -55,17 +56,17 @@ namespace AllianceInventoryApi.API.Repository
         }
         #endregion
         #region Get Item
-        public async Task<Item> GetItemBySId(int SId)
+        public async Task<Item> GetItemById(int Id)
         {
             Item? RequestedItem = null;
 
             try
             {
-                if (SId > 0)
+                if (Id > 0)
                 {
                     RequestedItem = await Task.Run(() =>
                     {
-                        var query = _context.Item.SingleOrDefault(x => x.Item_Serial_Number == SId);
+                        var query = _context.Item.SingleOrDefault(x => x.Item_ID == Id);
 
                         if (query != null)
                         {
@@ -85,7 +86,7 @@ namespace AllianceInventoryApi.API.Repository
                         }
                         return new Item();
                     });
-                    
+
                 }
             }
             catch (Exception ex)
@@ -96,8 +97,72 @@ namespace AllianceInventoryApi.API.Repository
             return RequestedItem ?? new Item();
         }
         #endregion
-        #region Restock Email
-        public List<Item> RestockCheck()
+
+        #region Create item
+        public async Task<GetItemResponseModel> AddItem(Item item)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                // Very basic check. Most of the verification should be done on the front end, but we should still check for nulls here.
+                if (item == null)
+                {
+                    response.Status = false;
+                    response.StatusCode = 400;
+                    response.Message = "Item name is required.";
+                    return response;
+                }
+
+                // Basic duplicate check.
+                var name = item.Item_Name.Trim();
+                var exists = await _context.Item
+                    .AnyAsync(i => i.Item_Name.ToLower() == name.ToLower());
+                if (exists)
+                {
+                    response.Status = false;
+                    response.StatusCode = 409;
+                    response.Message = "An item with that name already exists.";
+                    return response;
+                }
+
+                // build a fresh item from the checked values
+                Item newItem = new Item
+                {
+                    Item_Name = item.Item_Name,
+                    Item_Unit_Amount = item.Item_Unit_Amount,
+                    Item_Image = item.Item_Image,
+                    Item_Desc = item.Item_Desc,
+                    Item_Purchase_Date = item.Item_Purchase_Date,
+                    Item_Low_ALert_Number = item.Item_Low_ALert_Number,
+                    Item_Service_Date = item.Item_Service_Date,
+                    Item_Serial_Number = item.Item_Serial_Number,
+                    Item_Notes = item.Item_Notes
+                };
+
+                _context.Item.Add(newItem);
+                await _context.SaveChangesAsync();
+
+                response.Status = true;
+                response.StatusCode = 200;
+                response.Message = "Item created.";
+                return response;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("CreateItem --- " + ex.Message);
+                response.Status = false;
+                response.StatusCode = 500;
+                response.Message = "Could not create the item.";
+                response.Item = null;
+                return response;
+            }
+        }
+
+
+
+        #endregion
+            #region Restock Email
+public List<Item> RestockCheck()
         {
             List<Item>? itemList = GetAllItems();
             List<Item>? RestockList = new List<Item>();
@@ -121,4 +186,5 @@ namespace AllianceInventoryApi.API.Repository
         }
         #endregion
     }
+
 }

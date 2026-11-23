@@ -1,13 +1,14 @@
-﻿using System.Net;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using Alliance_Webapp.Models;
-using Alliance_Webapp.Models;
+using Alliance_Webapp.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Alliance_Webapp.Controllers;
 
@@ -101,4 +102,39 @@ public class UserController : Controller
         await HttpContext.SignOutAsync();   // deletes the cookie
         return RedirectToAction("Login");
     }
+    public IActionResult Admin()
+    {
+        return View();   // looks for Views/User/Admin.cshtml
+    }
+
+    public IActionResult AddUser() => View();
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddUser([Bind("User_Email,User_Password,User_Role")] UserModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        var client = _factory.CreateClient("Api");
+        HttpResponseMessage response;
+        try
+        {
+            response = await client.PostAsJsonAsync("User/AddUser", model);
+        }
+        catch (HttpRequestException)
+        {
+            ModelState.AddModelError(string.Empty, "Cannot reach the server.");
+            return View(model);
+        }
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<AddUserResponseModel>();
+            ModelState.AddModelError(string.Empty, errorResponse?.Message ?? "An error occurred while adding the user.");
+            return View(model);
+        }
+        // If successful, redirect to Admin page or show a success message
+        return RedirectToAction("Admin");
+    }
+
 }

@@ -47,7 +47,7 @@ namespace AllianceInventoryApi.Controllers
                     if (loginResult.StatusCode == 200)
                     {
                         var user = await repository.FindUserByEmail(tokenData.User_Email).ConfigureAwait(true);
-                        if(user != null)
+                        if (user != null)
                         {
                             var tokenString = GenerateJwtToken(user);
 
@@ -101,11 +101,11 @@ namespace AllianceInventoryApi.Controllers
 
             var claims = new[]
             {
-        new Claim(JwtRegisteredClaimNames.Sub, user.User_id.ToString()),
-        new Claim(JwtRegisteredClaimNames.Email, user.User_Email),
-        new Claim("role", role),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-    };
+            new Claim(JwtRegisteredClaimNames.Sub, user.User_id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.User_Email),
+            new Claim("role", role),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
 
             var token = new JwtSecurityToken(
                 issuer: config["Jwt:Issuer"],
@@ -116,5 +116,36 @@ namespace AllianceInventoryApi.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        #region Add User
+        [HttpPost("AddUser", Name = "AddUser")]
+        public async Task<AddUserResponseModel> AddUser(UserModel user)
+        {
+            AddUserResponseModel response = new AddUserResponseModel();
+            try
+            {
+                if (user != null)
+                {
+                    response = await repository.AddUser(user).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Create Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Create Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+
+        #endregion
+ 
     }
 }

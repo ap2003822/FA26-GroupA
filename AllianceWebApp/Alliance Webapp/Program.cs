@@ -4,11 +4,15 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages(options =>
+// Allow larger content streams for media
+builder.WebHost.ConfigureKestrel(serverOptions =>
 {
-    options.Conventions.AuthorizeFolder("/");
+    // Set to null for unlimited, or a specific byte limit
+    serverOptions.Limits.MaxRequestBodySize = 5 * 1024 * 1024; // 5 MB
 });
+
+// Add services to the container.
+builder.Services.AddRazorPages();
 
 builder.Services.AddControllersWithViews(options =>
     options.Filters.Add(new AuthorizeFilter()));

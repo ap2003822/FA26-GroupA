@@ -1,8 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using System.ComponentModel;
+using System.Reflection.Metadata;
 using AllianceInventoryApi.API.Models;
 using AllianceInventoryApi.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using static System.Net.WebRequestMethods;
 
 namespace AllianceInventoryApi.API.Data
 {
@@ -14,7 +17,7 @@ namespace AllianceInventoryApi.API.Data
         {
             _config = config;
         }
-        public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration config) : base(options) 
+        public InventoryDbContext(DbContextOptions<InventoryDbContext> options, IConfiguration config) : base(options)
         {
             _config = config;
         }
@@ -28,6 +31,15 @@ namespace AllianceInventoryApi.API.Data
                 var cs = _config["ConnectionStrings:DefaultConnection"];
                 optionsBuilder.UseSqlite(cs);
             }
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<Item>(entity =>
+            {
+                entity.Property(x => x.Item_Image).HasColumnType("blob");
+            });
+
         }
     }
 }

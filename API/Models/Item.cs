@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection.Metadata;
 
 namespace AllianceInventoryApi.API.Models
 {
@@ -7,7 +8,7 @@ namespace AllianceInventoryApi.API.Models
         [Key]
         public int Item_ID { get; set; }
         public string? Item_Name { get; set; }
-        public string? Item_Image { get; set; }
+        public byte[]? Item_Image { get; set; }
         public int? Item_Unit_Amount { get; set; }
         public string? Item_Desc { get; set; }
         public DateTime? Item_Purchase_Date { get; set; }

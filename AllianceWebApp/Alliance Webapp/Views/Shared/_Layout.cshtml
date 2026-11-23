@@ -28,8 +28,10 @@
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Admin</a>
+                                    <a class="nav-link text-dark" asp-controller="User" asp-action="Admin">Admin Page</a>
                                 </li>
+                               
+
                             }
                             <li class="nav-item">
                                 <form method="post" asp-controller="User" asp-action="Logout">

@@ -6,7 +6,12 @@
 <div class="container text-start">
     <div class="col">
         <div class="row">
-            <img src="@Model.Item.Item_Image" />
+            @if (Model.Item.Item_Image != null)
+            {
+                var base64String = Convert.ToBase64String(Model.Item.Item_Image);
+                <img src="data:image/webp;base64,@base64String"
+                     alt="@Model.Item.Item_Name" style="max-height:200px;" />
+            }
         </div>
         <div class="row">
             Desc: @Model.Item.Item_Desc
