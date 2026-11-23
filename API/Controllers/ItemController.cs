@@ -204,5 +204,63 @@ namespace AllianceInventoryApi.API.Controllers
             return response;
         }
         #endregion
+
+        #region Add Supply Stock
+        [HttpPost("AddSupplyStock", Name = "AddSupplyStock")]
+        public async Task<GetItemResponseModel> AddSupplyStock(int itemId, int amountToAdd)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                if (itemId > 0 && amountToAdd > 0)
+                {
+                    response = await repository.AddSupplyStock(itemId, amountToAdd).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Add Supply Stock Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Add Supply Stock Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Subtract Supply Stock
+        [HttpPost("SubtractSupplyStock", Name = "SubtractSupplyStock")]
+        public async Task<GetItemResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                if (itemId > 0 && amountToSubtract > 0)
+                {
+                    response = await repository.SubtractSupplyStock(itemId, amountToSubtract).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Subtract Supply Stock Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Subtract Supply Stock Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
     }
 }

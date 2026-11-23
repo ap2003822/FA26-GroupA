@@ -55,6 +55,7 @@ namespace AllianceInventoryApi.API.Repository
             }
         }
         #endregion
+
         #region Get Item
         public async Task<Item> GetItemById(int Id)
         {
@@ -161,7 +162,8 @@ namespace AllianceInventoryApi.API.Repository
 
 
         #endregion
-            #region Restock Email
+
+        #region Restock Email
 public List<Item> RestockCheck()
         {
             List<Item>? itemList = GetAllItems();
@@ -185,6 +187,66 @@ public List<Item> RestockCheck()
             }
         }
         #endregion
-    }
 
+        #region AddSuplyStock
+        public async Task<GetItemResponseModel> AddSupplyStock(int itemId, int amountToAdd)
+        {
+            var item = await _context.Item.FindAsync(itemId);
+            if (item == null)
+            {
+                return new GetItemResponseModel
+                {
+                    Status = false,
+                    StatusCode = 404,
+                    Message = "Item not found."
+                };
+            }
+
+            item.Item_Unit_Amount += amountToAdd;
+            await _context.SaveChangesAsync();
+
+            return new GetItemResponseModel
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Supply stock added.",
+                Item = item
+            };
+        }
+        #endregion
+        #region SubtractSupplyStock 
+        public async Task<GetItemResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract)
+        {
+            var item = await _context.Item.FindAsync(itemId);
+            if (item == null)
+            {
+                return new GetItemResponseModel
+                {
+                    Status = false,
+                    StatusCode = 404,
+                    Message = "Item not found."
+                };
+            }
+            if (item.Item_Unit_Amount < amountToSubtract)
+            {
+                return new GetItemResponseModel
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Not enough stock to subtract the requested amount."
+                };
+            }
+            item.Item_Unit_Amount -= amountToSubtract;
+            await _context.SaveChangesAsync();
+            return new GetItemResponseModel
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Supply stock subtracted.",
+                Item = item
+            };
+        }
+        #endregion
+
+    }
 }
