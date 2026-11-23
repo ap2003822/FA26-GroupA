@@ -51,26 +51,6 @@ namespace Alliance_Webapp.Controllers
             return View(ResponseModel);
         }
 
-        public async Task<IActionResult> GetItems()
-        {
-            List<GetAllItemsResponseModel> itemList = new List<GetAllItemsResponseModel>();
-
-            GetAllItemsResponseModel? ResponseModel = null;
-            try
-            {
-                var strSerializedData = string.Empty;
-                ServiceHelper objService = new ServiceHelper();
-                string response = await objService.GetRequest(strSerializedData, ConstantValues.GetAllItems, false, string.Empty).ConfigureAwait(true);
-                ResponseModel = JsonConvert.DeserializeObject<GetAllItemsResponseModel>(response);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("GetAllItems " + ex.Message);
-            }
-            return View(ResponseModel);
-
-        }
-        public IActionResult AddItem() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]

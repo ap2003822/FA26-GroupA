@@ -7,12 +7,12 @@
     <h1>@ViewData["Title"]</h1>
 
     <div class="d-flex flex-wrap gap-2">
-        <a asp-controller="User" asp-action="AddUser">Add User</a>
-        <a asp-controller="Item"  asp-action="AddItem">Add Item</a>
-        <a type="button" class="btn btn-primary" action="">View Transactions</a>
-        <a type="button" class="btn btn-primary" action="">Edit User</a>
-        <a type="button" class="btn btn-primary" action="">Edit Items</a>
-        <a type="button" class="btn btn-primary" action="">Change Notification Email</a>
+        <a asp-controller="User" asp-action="AddUser" class="btn btn-primary">Add User</a>
+        <a asp-controller="Item" asp-action="AddItem" class="btn btn-primary">Add Item</a>
+        <a asp-controller="User" asp-action="TransactionView" class="btn btn-primary">View Transactions</a>
+        <a asp-controller="User" asp-action="EditUser" class="btn btn-primary">Edit User</a>
+        <a asp-controller="Item" asp-action="EditItems" class="btn btn-primary">Edit Items</a>
+        <a asp-controller="User" asp-action="ChangeNotificationEmail" class="btn btn-primary">Change Notification Email</a>
     </div>
 
 </div>

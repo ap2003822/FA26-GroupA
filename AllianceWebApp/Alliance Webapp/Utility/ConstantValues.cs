@@ -4,5 +4,6 @@
     {
         public const string GetAllItems = "Item/GetAllItems";
         public const string GetItemById = "Item/GetItem";
+        public const string GetAllTransactions = "Transaction/GetAllTransactions";
     }
 }
