@@ -7,5 +7,6 @@ namespace AllianceInventoryApi.IRepository
     public interface ITransaction
     {
         Task<List<TransactionModel>> GetAllTransactions();
+    
     }
 }

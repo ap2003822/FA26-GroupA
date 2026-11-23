@@ -13,8 +13,8 @@ namespace AllianceInventoryApi.API.IRepository
         List<Item> RestockCheck();
         Task<Item> GetItemById(int Id);
         Task<GetItemResponseModel>AddItem(Item item);
-        Task<GetItemResponseModel> AddSupplyStock(int itemId, int amountToAdd);
-        Task<GetItemResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract);
+        Task<ChangeStockResponseModel> AddSupplyStock(int itemId, int amountToAdd, string userEmail);
+        Task<ChangeStockResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract, string userEmail);
 
     }
 }

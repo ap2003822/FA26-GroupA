@@ -207,14 +207,15 @@ namespace AllianceInventoryApi.API.Controllers
 
         #region Add Supply Stock
         [HttpPost("AddSupplyStock", Name = "AddSupplyStock")]
-        public async Task<GetItemResponseModel> AddSupplyStock(int itemId, int amountToAdd)
+        public async Task<ChangeStockResponseModel> AddSupplyStock(int itemId, int amountToAdd)
         {
-            GetItemResponseModel response = new GetItemResponseModel();
+            ChangeStockResponseModel response = new ChangeStockResponseModel();
             try
             {
                 if (itemId > 0 && amountToAdd > 0)
                 {
-                    response = await repository.AddSupplyStock(itemId, amountToAdd).ConfigureAwait(true);
+                    string userEmail = User.FindFirst("email")!.Value;
+                    response = await repository.AddSupplyStock(itemId, amountToAdd, userEmail).ConfigureAwait(true);
                 }
                 else
                 {
@@ -236,14 +237,15 @@ namespace AllianceInventoryApi.API.Controllers
 
         #region Subtract Supply Stock
         [HttpPost("SubtractSupplyStock", Name = "SubtractSupplyStock")]
-        public async Task<GetItemResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract)
+        public async Task<ChangeStockResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract)
         {
-            GetItemResponseModel response = new GetItemResponseModel();
+            ChangeStockResponseModel response = new ChangeStockResponseModel();
             try
             {
                 if (itemId > 0 && amountToSubtract > 0)
                 {
-                    response = await repository.SubtractSupplyStock(itemId, amountToSubtract).ConfigureAwait(true);
+                    string userEmail = User.FindFirst("email")!.Value;
+                    response = await repository.SubtractSupplyStock(itemId, amountToSubtract, userEmail).ConfigureAwait(true);
                 }
                 else
                 {

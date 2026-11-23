@@ -64,5 +64,35 @@ namespace AllianceInventoryApi.Controllers
             return response;
         }
         #endregion
+        //#region Add Transaction To Database
+        //[HttpPost("AddTransaction", Name = "AddTransaction")]
+        //[AllowAnonymous] // This should be changed to [Authorize(Roles = "Admin")] after
+        //public async Task<ChangeStockResponseModel> AddTransaction(TransactionModel transaction)
+        //{
+        //    ChangeStockResponseModel response = new ChangeStockResponseModel();
+        //    try
+        //    {
+        //        response = await repository.ChangeStockNumber(transaction.User_Email, transaction.Item_Name, transaction.);
+        //        if (response.StatusCode == 200)
+        //        {
+        //            response.Status = true;
+        //            response.Message = "Transaction Added Successfully";
+        //        }
+        //        else
+        //        {
+        //            response.Status = false;
+        //            response.Message = "Failed to add transaction";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        response.Status = false;
+        //        response.Message = "Failed to add transaction";
+        //        response.StatusCode = 0;
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //    return response;
+        //}
+        //#endregion
     }
 }
