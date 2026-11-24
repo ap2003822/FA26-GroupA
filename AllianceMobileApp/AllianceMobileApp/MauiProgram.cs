@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using Refit;
 using Microsoft.Extensions.Http;
 using ZXing.Net.Maui.Controls;
+using CommunityToolkit.Mvvm;
 using AllianceMobileApp.Utility;
+using CommunityToolkit.Maui;
 
 namespace AllianceMobileApp
 {
@@ -14,13 +16,13 @@ namespace AllianceMobileApp
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .UseBarcodeReader()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-
             //builder.Services.AddRefitGeneratedClient<IInventoryService>()
             //    .ConfigureHttpClient(client =>
             //    {

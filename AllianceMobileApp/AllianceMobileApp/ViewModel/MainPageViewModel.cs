@@ -5,6 +5,7 @@ using CommunityToolkit.Mvvm.Input;
 using Refit;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Text.Json;
@@ -15,16 +16,19 @@ namespace AllianceMobileApp.ViewModel
     {
 
         private readonly IInventoryService _inventoryAPI = RestService.ForGenerated<IInventoryService>("https://localhost:7170/", GetAllItemsResponseCONTEXT.Default);
-
-        private GetAllItemsResponseModel items = new GetAllItemsResponseModel();
         
-        public MainPageViewModel ()
+        private GetAllItemsResponseModel response;
+
+        public ObservableCollection<Item> listItems { get; set; }
+
+        public MainPageViewModel()
         {
-            //GetItemsAsync(cancellationToken: default);
-
+            this.listItems = new ObservableCollection<Item>();
+            
         }
+        
 
-    
+
         [RelayCommand]
         private async Task GetItemsAsync(CancellationToken cancellationToken = default)
         {
@@ -38,7 +42,16 @@ namespace AllianceMobileApp.ViewModel
             //    await Shell.Current.DisplayAlertAsync("Error", $"Failed to get Items List: {ex.StatusCode}", "OK");
             //    Console.WriteLine(ex.Message);
             //}
-            var response = await _inventoryAPI.GetItemsAsync();
+            response = await _inventoryAPI.GetItemsAsync();
+            if (listItems.Count != 0)
+            {
+                listItems.Clear();
+            }
+            foreach (Item item in response.ItemList)
+            {
+                
+                listItems.Add(item);
+            }
         }
 
     }

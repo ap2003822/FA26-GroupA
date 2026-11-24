@@ -11,5 +11,17 @@ namespace AllianceMobileApp.Model
     [JsonSerializable(typeof(int))]
     [JsonSerializable(typeof(string))]
     [JsonSerializable(typeof(List<Item>))]
+    [JsonSerializable(typeof(Item))]
+    [JsonSerializable(typeof(int))]
+    [JsonSerializable(typeof(string))]
+    [JsonSerializable(typeof(string))]
+    [JsonSerializable(typeof(int))]
+    [JsonSerializable(typeof(string))]
+    [JsonSerializable(typeof(DateTime))]
+    [JsonSerializable(typeof(DateTime))]
+    [JsonSerializable(typeof(int))]
+    [JsonSerializable(typeof(string))]
+    [JsonSerializable(typeof(int))]
+
     public partial class GetAllItemsResponseCONTEXT : JsonSerializerContext;
 }
