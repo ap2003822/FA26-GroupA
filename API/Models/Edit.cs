@@ -1,0 +1,29 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace AllianceInventoryApi.API.Models
+{
+
+    public class Edit
+    {
+        public int Item_ID { get; set; }
+
+        public int Item_Serial_Number { get; set; }
+
+        public string Item_Name { get; set; }
+
+        public string Item_Desc { get; set; }
+
+        public string Item_Notes { get; set; }
+
+        public string Item_Image { get; set; }
+
+        public int Item_Unit_Amount { get; set; }
+
+        public int Item_Low_ALert_Number { get; set; }
+
+        public DateTime? Item_Purchase_Date { get; set; }
+
+        public DateTime? Item_Service_Date { get; set; }
+    }
+
+}
