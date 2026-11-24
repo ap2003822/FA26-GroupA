@@ -1,4 +1,5 @@
 ﻿using AllianceInventoryApi.API.Models;
+using AllianceInventoryApi.Models;
 
 namespace AllianceInventoryApi.API.IRepository
 {
@@ -10,6 +11,10 @@ namespace AllianceInventoryApi.API.IRepository
         /// <returns></returns>
         List<Item> GetAllItems();
         List<Item> RestockCheck();
-        Task<Item> GetItemBySId(int SId);
+        Task<Item> GetItemById(int Id);
+        Task<GetItemResponseModel>AddItem(Item item);
+        Task<ChangeStockResponseModel> AddSupplyStock(int itemId, int amountToAdd, string userEmail);
+        Task<ChangeStockResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract, string userEmail);
+
     }
 }

@@ -136,14 +136,14 @@ namespace AllianceInventoryApi.API.Controllers
 
         [HttpGet("GetItem", Name = "GetItem")]
         [AllowAnonymous]
-        public async Task<GetItemResponseModel> GetItemBySId(int SId)
+        public async Task<GetItemResponseModel> GetItemById(int Id)
         {
             GetItemResponseModel response = new GetItemResponseModel();
             try
             {
-                if (SId > 0)
+                if (Id > 0)
                 {
-                    Item RequestedItem = await repository.GetItemBySId(SId).ConfigureAwait(true);
+                    Item RequestedItem = await repository.GetItemById(Id).ConfigureAwait(true);
 
                     if (RequestedItem != null)
                     {
@@ -169,6 +169,95 @@ namespace AllianceInventoryApi.API.Controllers
             {
                 response.Status = false;
                 response.Message = "Get Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Create Item
+        [HttpPost("AddItem", Name = "AddItem")]
+        public async Task<GetItemResponseModel> AddItem(Item item)
+        {
+            GetItemResponseModel response = new GetItemResponseModel();
+            try
+            {
+                if (item != null)
+                {
+                    response = await repository.AddItem(item).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Create Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Create Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Add Supply Stock
+        [HttpPost("AddSupplyStock", Name = "AddSupplyStock")]
+        public async Task<ChangeStockResponseModel> AddSupplyStock(int itemId, int amountToAdd)
+        {
+            ChangeStockResponseModel response = new ChangeStockResponseModel();
+            try
+            {
+                if (itemId > 0 && amountToAdd > 0)
+                {
+                    string userEmail = User.FindFirst("email")!.Value;
+                    response = await repository.AddSupplyStock(itemId, amountToAdd, userEmail).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Add Supply Stock Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Add Supply Stock Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+        #endregion
+
+        #region Subtract Supply Stock
+        [HttpPost("SubtractSupplyStock", Name = "SubtractSupplyStock")]
+        public async Task<ChangeStockResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract)
+        {
+            ChangeStockResponseModel response = new ChangeStockResponseModel();
+            try
+            {
+                if (itemId > 0 && amountToSubtract > 0)
+                {
+                    string userEmail = User.FindFirst("email")!.Value;
+                    response = await repository.SubtractSupplyStock(itemId, amountToSubtract, userEmail).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Subtract Supply Stock Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Subtract Supply Stock Failed";
                 response.StatusCode = 0;
                 Console.WriteLine(ex.Message);
             }

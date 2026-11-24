@@ -1,0 +1,59 @@
+﻿@model Alliance_Webapp.Models.GetAllTransactionResponseModel;
+@{
+	ViewData["Title"] = "Transaction";
+}
+<div class="text-center">
+    <h2>Items</h2>
+    <table class="table table-sm table-striped table-bordered m-2 table-hover">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Old Value</th>
+                <th>New Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @if (Model.Transactions != null)
+                {
+                    @if (Model.Transactions.Count != 0)
+                    {
+
+                    
+                        @foreach (var item in Model.Transactions)
+                        {
+                            <tr class="position-relative">
+                                <td>@item.User_Email</td>
+                                <td>@item.Item_Name</td>
+                                <td>@item.Change_Desc</td>
+                                <td>@item.Old_Value</td>
+                                <td>@item.New_Value</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5">Empty</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No Data</td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">Uh oh! Something went wrong!</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

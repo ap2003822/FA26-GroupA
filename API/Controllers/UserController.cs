@@ -47,9 +47,9 @@ namespace AllianceInventoryApi.Controllers
                     if (loginResult.StatusCode == 200)
                     {
                         var user = await repository.FindUserByEmail(tokenData.User_Email).ConfigureAwait(true);
-                        if(user != null)
+                        if (user != null)
                         {
-                            var tokenString = GenerateJwtToken(tokenData);
+                            var tokenString = GenerateJwtToken(user);
 
                             response.StatusCode = 200;
                             response.Status = true;
@@ -57,10 +57,9 @@ namespace AllianceInventoryApi.Controllers
                             response.AuthToken = tokenString;
                             response.User = new UserModel
                             {
-                                User_id = tokenData.User_id,
-                                User_Email = tokenData.User_Email,
-                                User_Password = tokenData.User_Password,
-                                User_Role = tokenData.User_Role
+                                User_id = user.User_id,
+                                User_Email = user.User_Email,
+                                User_Role = user.User_Role
                             };
 
                             return response;
@@ -91,22 +90,62 @@ namespace AllianceInventoryApi.Controllers
 
             return response;
         }
-        private string GenerateJwtToken(UserModel userInfo)
+        private string GenerateJwtToken(UserModel user)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["TokenAuthentication:SecretKey"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[] {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.User_Email),
-                //new Claim(JwtRegisteredClaimNames., userInfo.Password),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+
+            // collapse the many roles in the data down to two
+            var role = string.Equals(user.User_Role?.Trim(), "Admin", StringComparison.OrdinalIgnoreCase)
+                ? "Admin" : "User";
+
+            var claims = new[]
+            {
+            new Claim(JwtRegisteredClaimNames.Sub, user.User_id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.User_Email),
+            new Claim("role", role),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
-            DateTime expiredDate = DateTime.UtcNow.AddDays(15);
-            var token = new JwtSecurityToken(config["TokenAuthentication:Issuer"],
-                config["TokenAuthentication:Issuer"],
-                claims,
-                expires: expiredDate,
+
+            var token = new JwtSecurityToken(
+                issuer: config["Jwt:Issuer"],
+                audience: config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(15),
                 signingCredentials: credentials);
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        #region Add User
+        [HttpPost("AddUser", Name = "AddUser")]
+        public async Task<AddUserResponseModel> AddUser(UserModel user)
+        {
+            AddUserResponseModel response = new AddUserResponseModel();
+            try
+            {
+                if (user != null)
+                {
+                    response = await repository.AddUser(user).ConfigureAwait(true);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Create Failed";
+                    response.StatusCode = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Status = false;
+                response.Message = "Create Failed";
+                response.StatusCode = 0;
+                Console.WriteLine(ex.Message);
+            }
+            return response;
+        }
+
+        #endregion
+ 
     }
 }

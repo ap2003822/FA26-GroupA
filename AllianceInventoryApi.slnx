@@ -1,4 +1,7 @@
 <Solution>
+  <Project Path="AllianceMobileApp/AllianceMobileApp/AllianceMobileApp.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
   <Project Path="API/AllianceInventoryApi.csproj" />
   <Project Path="WebApp/WebApp.csproj" Id="5220deda-f560-4805-8037-38b65dabcb63" />
 </Solution>

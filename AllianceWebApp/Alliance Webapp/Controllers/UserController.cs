@@ -1,0 +1,158 @@
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Http.Json;
+using System.Security.Claims;
+using Alliance_Webapp.Models;
+using Alliance_Webapp.Utility;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+namespace Alliance_Webapp.Controllers;
+
+[AllowAnonymous]
+public class UserController : Controller
+{
+    private readonly IHttpClientFactory _factory;
+    public UserController(IHttpClientFactory factory) => _factory = factory;
+    //private record ApiTransactions(bool Status, int StatusCode, string? Message, List<Transaction>? Transactions);
+
+    // Matches the API's LoginResponseModel
+    private record ApiLoginResponse(bool Status, string? Message, string? AuthToken);
+
+    [HttpGet]
+    public IActionResult Login(string? returnUrl = null) =>
+        View(new LoginViewModel { ReturnUrl = returnUrl });
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel model)
+    {
+        if (!ModelState.IsValid) return View(model);
+
+        var client = _factory.CreateClient("Api");
+        HttpResponseMessage response;
+        try
+        {
+            response = await client.PostAsJsonAsync("User/LoginUser",
+    new { User_id = 0, User_Email = model.Email, User_Password = model.Password, User_Role = "" });
+        }
+        catch (HttpRequestException)
+        {
+            model.ErrorMessage = "Cannot reach the server. Is the API running?";
+            return View(model);
+        }
+
+        if (response.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            model.ErrorMessage = "Invalid email or password.";
+            return View(model);
+        }
+        response.EnsureSuccessStatusCode();
+
+        var login = await response.Content.ReadFromJsonAsync<ApiLoginResponse>();
+        if (login == null || !login.Status || string.IsNullOrEmpty(login.AuthToken))
+        {
+            model.ErrorMessage = "Invalid email or password.";
+            return View(model);
+        }
+
+        // Read the user's details from the token
+        var jwt = new JwtSecurityTokenHandler().ReadJwtToken(login.AuthToken);
+        var email = jwt.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
+        var role = jwt.Claims.FirstOrDefault(c => c.Type == "role")?.Value;
+
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(role))
+        {
+            model.ErrorMessage = "The login token was missing user details.";
+            return View(model);
+        }
+
+        var claims = new List<Claim>
+{
+    new(ClaimTypes.Name, email),
+    new(ClaimTypes.Role, role)
+};
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        var properties = new AuthenticationProperties
+        {
+            ExpiresUtc = new DateTimeOffset(jwt.ValidTo)
+        };
+        properties.StoreTokens(new[]
+        {
+    new AuthenticationToken { Name = "access_token", Value = login.AuthToken }
+});
+
+        await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(identity),
+            properties);
+
+        return Url.IsLocalUrl(model.ReturnUrl)
+            ? LocalRedirect(model.ReturnUrl!)
+            : RedirectToAction("Index", "Item");
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync();   // deletes the cookie
+        return RedirectToAction("Login");
+    }
+    public IActionResult Admin()
+    {
+        return View();   // looks for Views/User/Admin.cshtml
+    }
+
+    public IActionResult AddUser() => View();
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddUser([Bind("User_Email,User_Password,User_Role")] UserModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+        var client = _factory.CreateClient("Api");
+        HttpResponseMessage response;
+        try
+        {
+            response = await client.PostAsJsonAsync("User/AddUser", model);
+        }
+        catch (HttpRequestException)
+        {
+            ModelState.AddModelError(string.Empty, "Cannot reach the server.");
+            return View(model);
+        }
+        if (!response.IsSuccessStatusCode)
+        {
+            var errorResponse = await response.Content.ReadFromJsonAsync<AddUserResponseModel>();
+            ModelState.AddModelError(string.Empty, errorResponse?.Message ?? "An error occurred while adding the user.");
+            return View(model);
+        }
+        // If successful, redirect to Admin page or show a success message
+        return RedirectToAction("Admin");
+    }
+
+    public async Task<IActionResult> TransactionView()
+    {
+        GetAllTransactionResponseModel? ResponseModel = null;
+        try
+        {
+            var strSerializedData = string.Empty;
+            ServiceHelper objService = new ServiceHelper();
+            string response = await objService.GetRequest(strSerializedData, ConstantValues.GetAllTransactions, false, string.Empty).ConfigureAwait(true);
+            ResponseModel = JsonConvert.DeserializeObject<GetAllTransactionResponseModel>(response);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("GetAllTransactions " + ex.Message);
+        }
+        return View(ResponseModel);
+
+    }
+}
