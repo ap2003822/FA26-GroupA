@@ -3,6 +3,14 @@
 @{
         ViewData["Title"] = "Item Details";
 }
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
 <div class="container text-start">
     <div class="col">
         <div class="row">
@@ -37,4 +45,46 @@
             Service Date: @Model.Item.Item_Service_Date
         </div>
     </div>
+    <button type="button" class="btn btn-primary"
+             data-bs-toggle="modal" data-bs-target="#stockModal"
+             data-title="Add stock" data-url="@Url.Action("AddStock", "Item")">
+        Add stock
+    </button>
+    <button type="button" class="btn btn-primary"
+            data-bs-toggle="modal" data-bs-target="#stockModal"
+            data-title="Subtract stock" data-url="@Url.Action("SubtractStock", "Item")">
+        Subtract stock
+    </button>
+    <div class="modal fade" id="stockModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="stockForm" method="post" asp-action="AddStock">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="stockModalTitle">Add stock</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="itemId" value="@Model.Item.Item_ID" /> 
+                    <label for="amount" class="form-label">How many?</label>
+                    <input type="number" name="amount" id="amount" min="1" class="form-control" required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('stockModal').addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            document.getElementById('stockModalTitle').textContent = button.dataset.title;
+            document.getElementById('stockForm').action = button.dataset.url;
+            document.getElementById('amount').value = '';
+        });
+    </script>
+}
 </div>

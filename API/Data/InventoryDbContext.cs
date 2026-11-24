@@ -24,6 +24,7 @@ namespace AllianceInventoryApi.API.Data
 
         public virtual DbSet<Item> Item { get; set; } = null!;
         public virtual DbSet<UserModel> User { get; set; } = null!;
+        public virtual DbSet<TransactionModel> Edits { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

@@ -2,7 +2,9 @@ using System.Text;
 using AllianceInventoryApi.API.Data;
 using AllianceInventoryApi.API.IRepository;
 using AllianceInventoryApi.API.Repository;
+using AllianceInventoryApi.IRepository;
 using AllianceInventoryApi.Models;
+using AllianceInventoryApi.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -65,6 +67,7 @@ namespace AllianceInventoryApi
                     Version = "v1"
                 });
             });
+            builder.Services.AddScoped<ITransaction, TransactionDAL>();
             builder.Services.AddScoped<IItem, ItemDAL>();
             var app = builder.Build();
 
