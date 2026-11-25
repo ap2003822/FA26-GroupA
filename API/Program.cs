@@ -69,7 +69,7 @@ namespace AllianceInventoryApi
             });
             builder.Services.AddScoped<ITransaction, TransactionDAL>();
             builder.Services.AddScoped<IItem, ItemDAL>();
-            builder.Services.AddScoped<IEdits, EditsDAL>();
+            builder.Services.AddScoped<IEdit, EditDAL>();
             var app = builder.Build();
 
 
