@@ -100,6 +100,65 @@ namespace Alliance_Webapp.Controllers
 
             return RedirectToAction("ItemDetail", new { id = itemId });
         }
+      public IActionResult AddItem() => View();
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddItem([Bind("Item_Name,Item_Desc,Item_Notes,Item_Unit_Amount,Item_Low_ALert_Number,Item_Purchase_Date,Item_Service_Date,Item_Serial_Number")] Item item, IFormFile? imageFile)
+        {
+            if (!ModelState.IsValid) return View(item);
+
+            if (imageFile != null && imageFile.Length > 0)
+            {
+                if (!imageFile.ContentType.StartsWith("image/"))
+                {
+                    ViewBag.ErrorMessage = "Please choose an image file.";
+                    return View(item);
+                }
+                if (imageFile.Length > 5 * 1024 * 1024)   // 5 MB
+                {
+                    ViewBag.ErrorMessage = "The image must be under 5 MB.";
+                    return View(item);
+                }
+
+                using var ms = new MemoryStream();
+                await imageFile.CopyToAsync(ms);
+                item.Item_Image = ms.ToArray();
+
+            }
+            var client = _httpClientFactory.CreateClient("Api");
+
+            HttpResponseMessage message;
+            try
+            {
+                message = await client.PostAsJsonAsync("Item/AddItem", item);   // must match the API's route
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.ErrorMessage = "Could not reach the server. Please try again.";
+                return View(item);
+            }
+
+            if (!message.IsSuccessStatusCode)
+            {
+                Console.WriteLine("AddItem API error: " + (int)message.StatusCode + " "
+                    + await message.Content.ReadAsStringAsync());
+                ViewBag.ErrorMessage = "Could not create the item. Please try again.";
+                return View(item);
+            }
+
+            var result = await message.Content.ReadFromJsonAsync<ApiItemResponse>();
+
+            if (result == null || !result.Status || result.StatusCode != 200)
+            {
+                ViewBag.ErrorMessage = result?.Message ?? "Could not create the item.";
+                return View(item);
+            }
+
+            TempData["Message"] = $"Added {item.Item_Name}.";
+            return RedirectToAction(nameof(Index));
+        }
     }
+
 }
+
