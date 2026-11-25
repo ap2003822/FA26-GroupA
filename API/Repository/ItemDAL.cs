@@ -55,6 +55,7 @@ namespace AllianceInventoryApi.API.Repository
             }
         }
         #endregion
+
         #region Get Item
         public async Task<Item> GetItemById(int Id)
         {
@@ -161,7 +162,8 @@ namespace AllianceInventoryApi.API.Repository
 
 
         #endregion
-            #region Restock Email
+
+        #region Restock Email
 public List<Item> RestockCheck()
         {
             List<Item>? itemList = GetAllItems();
@@ -185,6 +187,118 @@ public List<Item> RestockCheck()
             }
         }
         #endregion
-    }
 
+        #region AddSuplyStock
+        public async Task<ChangeStockResponseModel> AddSupplyStock(int itemId, int amountToAdd, string userEmail)
+        {
+            var item = await _context.Item.FindAsync(itemId);
+            if (item == null)
+            {
+                return new ChangeStockResponseModel
+                {
+                    Status = false,
+                    StatusCode = 404,
+                    Message = "Item not found."
+                };
+            }
+
+            int oldAmount = item.Item_Unit_Amount ?? 0;
+            item.Item_Unit_Amount = oldAmount + amountToAdd;
+
+            if (!await AddStockRecord(item, userEmail, oldAmount, item.Item_Unit_Amount.Value))
+            {
+                return new ChangeStockResponseModel
+                {
+                    Status = false,
+                    StatusCode = 401,
+                    Message = "User not found."
+                };
+            }
+
+            await _context.SaveChangesAsync();   // saves the new amount and the record together
+
+            return new ChangeStockResponseModel
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Supply stock added.",
+                Item = item
+            };
+        }
+        #endregion
+
+        #region SubtractSupplyStock 
+        public async Task<ChangeStockResponseModel> SubtractSupplyStock(int itemId, int amountToSubtract, string userEmail)
+        {
+            var item = await _context.Item.FindAsync(itemId);
+            if (item == null)
+            {
+                return new ChangeStockResponseModel
+                {
+                    Status = false,
+                    StatusCode = 404,
+                    Message = "Item not found."
+                };
+            }
+
+            int oldAmount = item.Item_Unit_Amount ?? 0;
+            if (oldAmount < amountToSubtract)
+            {
+                return new ChangeStockResponseModel
+                {
+                    Status = false,
+                    StatusCode = 400,
+                    Message = "Not enough stock to subtract the requested amount."
+                };
+            }
+
+            item.Item_Unit_Amount = oldAmount - amountToSubtract;
+
+            if (!await AddStockRecord(item, userEmail, oldAmount, item.Item_Unit_Amount.Value))
+            {
+                return new ChangeStockResponseModel
+                {
+                    Status = false,
+                    StatusCode = 401,
+                    Message = "User not found."
+                };
+            }
+
+            await _context.SaveChangesAsync();
+
+            return new ChangeStockResponseModel
+            {
+                Status = true,
+                StatusCode = 200,
+                Message = "Supply stock subtracted.",
+                Item = item
+            };
+        }
+        #endregion
+
+        #region AddStockRecord
+        public async Task<bool> AddStockRecord(Item item, string userEmail, int oldAmount, int newAmount)
+        {
+            // finding user id by email
+            var user = await _context.User.FirstOrDefaultAsync(u => u.User_Email == userEmail);
+            if (user == null) return false;
+
+            // finding change in stock amount
+            int change = newAmount - oldAmount;
+
+            // adding a new transaction record to the database
+            _context.Edits.Add(new TransactionModel
+            {
+                Item_Id = item.Item_ID,
+                User_Id = user.User_id,
+                Transaction_Type = change > 0 ? "STOCK_ADD" : "STOCK_SUBTRACT",
+                Transaction_Date = DateTime.UtcNow,
+                Change_Desc = change > 0 ? $"Added {change} to stock" : $"Removed {-change} from stock",
+                Old_Value = oldAmount.ToString(),
+                New_Value = newAmount.ToString()
+            });
+            return true;
+        }
+        #endregion
+    }
 }

@@ -17,6 +17,7 @@ public class UserController : Controller
 {
     private readonly IHttpClientFactory _factory;
     public UserController(IHttpClientFactory factory) => _factory = factory;
+    //private record ApiTransactions(bool Status, int StatusCode, string? Message, List<Transaction>? Transactions);
 
     // Matches the API's LoginResponseModel
     private record ApiLoginResponse(bool Status, string? Message, string? AuthToken);
@@ -137,4 +138,21 @@ public class UserController : Controller
         return RedirectToAction("Admin");
     }
 
+    public async Task<IActionResult> TransactionView()
+    {
+        GetAllTransactionResponseModel? ResponseModel = null;
+        try
+        {
+            var strSerializedData = string.Empty;
+            ServiceHelper objService = new ServiceHelper();
+            string response = await objService.GetRequest(strSerializedData, ConstantValues.GetAllTransactions, false, string.Empty).ConfigureAwait(true);
+            ResponseModel = JsonConvert.DeserializeObject<GetAllTransactionResponseModel>(response);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("GetAllTransactions " + ex.Message);
+        }
+        return View(ResponseModel);
+
+    }
 }
